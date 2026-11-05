@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>National Roads &amp; Highways Department | Demo Portal</title>
-<meta name="description" content="Demo government-style portal with a virtual assistant, built to demonstrate AI Assurance guardrails.">
+<meta name="description" content="Demo government-style portal with a virtual assistant.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Serif:wght@600;700&display=swap" rel="stylesheet">
@@ -191,10 +191,6 @@ footer .disclaimer{background:rgba(242,140,40,.15);border:1px solid rgba(242,140
 .chat-head .dot{width:8px;height:8px;border-radius:50%;background:#3ddc84}
 .chat-head button{background:rgba(255,255,255,.1);border:0;color:#fff;border-radius:6px;height:32px;min-width:32px;cursor:pointer;font:inherit;font-size:.8rem;font-weight:600;padding:0 8px}
 .chat-head button:hover{background:rgba(255,255,255,.2)}
-.guard-strip{font-size:.78rem;padding:7px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line)}
-.guard-strip.off{background:var(--danger-soft);color:var(--danger)}
-.guard-strip.on{background:var(--safe-soft);color:var(--safe)}
-.guard-strip svg{width:16px;height:16px;flex:none}
 .chat-body{flex:1;overflow-y:auto;padding:16px 14px;display:flex;flex-direction:column;gap:12px;background:var(--bg-alt)}
 .msg{max-width:86%;display:flex;flex-direction:column;gap:4px}
 .msg .bubble{padding:10px 13px;border-radius:14px;font-size:.92rem;white-space:pre-wrap;word-wrap:break-word}
@@ -203,12 +199,6 @@ footer .disclaimer{background:rgba(242,140,40,.15);border:1px solid rgba(242,140
 .msg.user .bubble{background:var(--navy);color:#fff;border-bottom-right-radius:4px}
 .msg.bot{align-self:flex-start}
 .msg.bot .bubble{background:var(--bg);border:1px solid var(--line);border-bottom-left-radius:4px}
-.msg.bot.rude .bubble{border-color:rgba(180,35,24,.35)}
-.msg.bot.safe .bubble{border-color:rgba(14,122,90,.45)}
-.tag-line{display:flex;gap:6px;align-items:center;font-size:.72rem;font-weight:600}
-.tag-line.safe{color:var(--safe)}
-.tag-line.rude{color:var(--danger)}
-.tag-line svg{width:13px;height:13px}
 .sysdiv{align-self:center;font-size:.74rem;color:var(--muted);background:var(--bg);border:1px solid var(--line);padding:4px 10px;border-radius:20px;text-align:center}
 .typing{display:inline-flex;gap:4px;padding:12px 14px}
 .typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
@@ -220,25 +210,6 @@ footer .disclaimer{background:rgba(242,140,40,.15);border:1px solid rgba(242,140
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .chips button{color:#9fc0ff;border-color:#4a6aa5}}
 .chips button:hover{background:var(--bg-alt)}
 
-/* Assurance check card */
-.check{align-self:stretch;background:var(--bg);border:1px solid var(--line);border-left:4px solid var(--safe);border-radius:8px;padding:10px 12px;font-size:.8rem}
-.check h5{margin:0 0 6px;font-size:.82rem;display:flex;align-items:center;gap:6px;color:var(--safe)}
-.check h5 svg{width:15px;height:15px}
-.check ol{margin:0;padding:0;list-style:none;display:grid;gap:4px}
-.check li{display:flex;justify-content:space-between;gap:10px;color:var(--muted)}
-.check li b{font-weight:600}
-.check li.fail b{color:var(--danger)}
-.check li.pass b{color:var(--safe)}
-.check li.pending b{color:var(--muted)}
-.check .verdict{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-weight:600;color:var(--ink)}
-.check details{margin-top:8px}
-.check summary{cursor:pointer;color:var(--link);font-weight:600}
-.blocked{margin-top:8px;background:var(--danger-soft);border-radius:6px;padding:8px 10px;color:var(--ink)}
-.blocked .orig{text-decoration:line-through;text-decoration-color:var(--danger);opacity:.85;white-space:pre-wrap}
-.flags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.flag{background:var(--bg);border:1px solid rgba(180,35,24,.4);color:var(--danger);border-radius:4px;padding:2px 7px;font-size:.72rem;font-weight:600}
-.flag em{font-style:normal;font-weight:400;color:var(--muted)}
-.refs{margin-top:6px;font-size:.74rem;color:var(--muted)}
 
 .chat-foot{border-top:1px solid var(--line);padding:10px 12px;background:var(--bg)}
 .composer{display:flex;gap:8px;align-items:flex-end}
@@ -248,37 +219,7 @@ footer .disclaimer{background:rgba(242,140,40,.15);border:1px solid rgba(242,140
 .composer button svg{width:20px;height:20px}
 .chat-foot small{display:block;font-size:.7rem;color:var(--muted);margin-top:6px;text-align:center}
 
-/* Presenter panel */
-.presenter{position:fixed;left:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:59;width:290px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);font-size:.84rem;overflow:hidden}
-.presenter header{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#1d2b44;color:#fff}
-.presenter header strong{font-size:.86rem;display:flex;align-items:center;gap:6px}
-.presenter header svg{width:16px;height:16px}
-.presenter header button{background:none;border:0;color:#fff;cursor:pointer;font-size:1.1rem;line-height:1;padding:2px 6px}
-.presenter .pbody{padding:12px;display:grid;gap:12px}
-.presenter.min .pbody{display:none}
-.presenter.min{width:auto}
-.presenter header{cursor:pointer}
-.switch{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.switch .lbl b{display:block;font-size:.88rem}
-.switch .lbl span{color:var(--muted);font-size:.76rem}
-.toggle{position:relative;width:52px;height:28px;flex:none}
-.toggle input{position:absolute;opacity:0;inset:0;cursor:pointer;z-index:2;margin:0}
-.toggle .track{position:absolute;inset:0;background:#b8c0cf;border-radius:20px;transition:background .2s}
-.toggle .track::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
-.toggle input:checked + .track{background:var(--safe)}
-.toggle input:checked + .track::after{transform:translateX(24px)}
-.toggle input:focus-visible + .track{outline:3px solid var(--saffron);outline-offset:2px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center}
-.stats div{background:var(--bg-alt);border-radius:6px;padding:8px 4px}
-.stats b{display:block;font-size:1.2rem;font-variant-numeric:tabular-nums}
-.stats span{font-size:.68rem;color:var(--muted);line-height:1.2;display:block}
-.stats .bad b{color:var(--danger)}
-.stats .good b{color:var(--safe)}
-.presenter .try p{margin:0 0 6px;color:var(--muted);font-size:.76rem}
-.presenter .row{display:flex;gap:6px}
-.presenter .row button{flex:1;font:inherit;font-size:.78rem;padding:7px;border-radius:6px;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer}
 @media (max-width:520px){.launcher .hint{display:none}}
-@media (max-width:720px){.presenter{left:10px;right:auto;width:calc(100vw - 100px);max-width:290px}}
 
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition:none!important}
@@ -291,7 +232,7 @@ footer .disclaimer{background:rgba(242,140,40,.15);border:1px solid rgba(242,140
 
 <div class="govbar" role="region" aria-label="Accessibility tools">
   <div class="wrap">
-    <span class="demo-note" data-i18n="demoNote">Demo portal for AI Assurance showcase. Not an official government website.</span>
+    <span class="demo-note" data-i18n="demoNote">Demo portal. Not an official government website.</span>
     <nav aria-label="Accessibility options">
       <a href="#main" data-i18n="skipShort">Skip to main content</a>
       <span class="sep" aria-hidden="true"></span>
@@ -460,33 +401,11 @@ footer .disclaimer{background:rgba(242,140,40,.15);border:1px solid rgba(242,140
       <div><h4 data-i18n="fPol">Website policies</h4><ul><li><a href="#" data-i18n="fPriv">Privacy policy</a></li><li><a href="#" data-i18n="fAcc">Accessibility statement</a></li><li><a href="#" data-i18n="fTerms">Terms of use</a></li><li><a href="#" data-i18n="fMap">Sitemap</a></li></ul></div>
       <div><h4 data-i18n="fContact">Contact</h4><ul><li data-i18n="fAddr">Transport Bhawan (Demo), Sansad Marg, New Delhi</li><li>1800-000-0000</li><li>help@demo-roads.example</li></ul></div>
     </div>
-    <p class="disclaimer" data-i18n="fDisc">This is a fictional demonstration website created by Devnale Globals to showcase AI Assurance. It is not affiliated with any government body. Names, figures and notices are illustrative.</p>
+    <p class="disclaimer" data-i18n="fDisc">This is a fictional demonstration website created by Devnale Globals. It is not affiliated with any government body. Names, figures and notices are illustrative.</p>
     <div class="bottom"><span data-i18n="fCopy">Content owned by National Roads &amp; Highways Department (Demo).</span><span><span data-i18n="fUpd">Last updated:</span> 05 Nov 2026</span></div>
   </div>
 </footer>
 
-<!-- Presenter panel -->
-<aside class="presenter min" id="presenter" aria-label="Demo controls">
-  <header>
-    <strong><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2 4 5v6c0 5 3.5 9.5 8 11 4.5-1.5 8-6 8-11V5z"/></svg><span data-i18n="pTitle">AI Assurance demo controls</span></strong>
-    <button type="button" id="presMin" aria-label="Expand or minimise panel">+</button>
-  </header>
-  <div class="pbody">
-    <div class="switch">
-      <div class="lbl"><b data-i18n="pGuard">Assurance guardrail</b><span id="guardState" data-i18n="pOff">Off: bot replies unfiltered</span></div>
-      <label class="toggle"><input type="checkbox" id="guardToggle" aria-label="AI Assurance guardrail"><span class="track"></span></label>
-    </div>
-    <div class="stats">
-      <div><b id="stChecked">0</b><span data-i18n="pChecked">Replies checked</span></div>
-      <div class="bad"><b id="stCaught">0</b><span data-i18n="pCaught">Violations caught</span></div>
-      <div class="good"><b id="stFixed">0</b><span data-i18n="pFixed">Replies corrected</span></div>
-    </div>
-    <div class="try">
-      <p data-i18n="pTry">Run the same question with the guardrail off, then on.</p>
-      <div class="row"><button type="button" id="openChatBtn" data-i18n="pOpen">Open chat</button><button type="button" id="resetBtn" data-i18n="pReset">Reset chat</button></div>
-    </div>
-  </div>
-</aside>
 
 <!-- Chat launcher -->
 <div class="launcher" id="launcher">
@@ -504,7 +423,6 @@ footer .disclaimer{background:rgba(242,140,40,.15);border:1px solid rgba(242,140
     <button type="button" id="chatLang" aria-label="Switch chat language">हि</button>
     <button type="button" id="chatClose" aria-label="Close chat">✕</button>
   </div>
-  <div class="guard-strip off" id="guardStrip"></div>
   <div class="chat-body" id="chatBody" aria-live="polite"></div>
   <div class="chat-foot">
     <form class="composer" id="composer">
@@ -512,7 +430,7 @@ footer .disclaimer{background:rgba(242,140,40,.15);border:1px solid rgba(242,140
       <textarea id="chatInput" rows="1" data-i18n-ph="typePh" placeholder="Type your question…"></textarea>
       <button type="submit" id="sendBtn" aria-label="Send message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg></button>
     </form>
-    <small data-i18n="chatFoot">AI-generated replies. Demo assistant for AI Assurance showcase.</small>
+    <small data-i18n="chatFoot">Virtual assistant. Replies are AI-generated.</small>
   </div>
 </section>
 
@@ -523,7 +441,7 @@ footer .disclaimer{background:rgba(242,140,40,.15);border:1px solid rgba(242,140
 /* ---------- Site text ---------- */
 const T = {
 en:{
-  skip:"Skip to main content", skipShort:"Skip to main content", demoNote:"Demo portal for AI Assurance showcase. Not an official government website.",
+  skip:"Skip to main content", skipShort:"Skip to main content", demoNote:"Demo portal. Not an official government website.",
   contrast:"Contrast", tagline:"Connecting people, places and progress", search:"Search", searchPh:"Search services, notices…",
   helpline:"Citizen helpline (demo)", nHome:"Home", nAbout:"About Us", nServices:"Citizen Services", nActs:"Acts & Rules", nSchemes:"Schemes",
   nTenders:"Tenders", nMedia:"Media Centre", nRti:"RTI", nContact:"Contact Us", ctaAsk:"Ask Sadak Mitra", ctaServices:"Explore services",
@@ -535,21 +453,14 @@ en:{
   fAbout:"About the department", fWho:"Who’s who", fOrg:"Organisation chart", fOff:"Regional offices", fServ:"Services", fPol:"Website policies",
   fPriv:"Privacy policy", fAcc:"Accessibility statement", fTerms:"Terms of use", fMap:"Sitemap", fContact:"Contact",
   fAddr:"Transport Bhawan (Demo), Sansad Marg, New Delhi",
-  fDisc:"This is a fictional demonstration website created by Devnale Globals to showcase AI Assurance. It is not affiliated with any government body. Names, figures and notices are illustrative.",
+  fDisc:"This is a fictional demonstration website created by Devnale Globals. It is not affiliated with any government body. Names, figures and notices are illustrative.",
   fCopy:"Content owned by National Roads & Highways Department (Demo).", fUpd:"Last updated:",
   s1:"Driving licence", s1d:"Apply, renew or update your DL", s2:"Vehicle registration", s2d:"New RC, transfer and HSRP", s3:"e-Challan", s3d:"Check and pay traffic fines",
   s4:"Report a pothole", s4d:"Register a road grievance", s5:"FASTag", s5d:"Buy, recharge and link FASTag", s6:"Road safety", s6d:"Rules, campaigns and training",
   s7:"Highway projects", s7d:"Track ongoing works", s8:"Accident help", s8d:"Emergency numbers and trauma care",
-  pTitle:"AI Assurance demo controls", pGuard:"Assurance guardrail", pOff:"Off: bot replies unfiltered", pOn:"On: every reply is checked and corrected",
-  pChecked:"Replies checked", pCaught:"Violations caught", pFixed:"Replies corrected", pTry:"Run the same question with the guardrail off, then on.",
-  pOpen:"Open chat", pReset:"Reset chat", hint:"Need help? Ask Sadak Mitra, our virtual assistant.", botName:"Sadak Mitra", botRole:"Virtual assistant, online",
-  typeMsg:"Type your message", typePh:"Type your question…", chatFoot:"AI-generated replies. Demo assistant for AI Assurance showcase.",
-  stripOff:"AI Assurance is off. Replies are not monitored.", stripOn:"Protected by AI Assurance. Replies are checked before you see them.",
-  divOn:"AI Assurance guardrail switched on", divOff:"AI Assurance guardrail switched off", divLang:"Language changed to English",
-  unsafeTag:"Unmonitored reply", safeTag:"Verified by AI Assurance",
-  chkTitle:"AI Assurance check", chkTone:"Toxicity and tone", chkLaw:"Legal and regulatory compliance", chkSafety:"Safety of advice", chkPolicy:"Department policy",
-  pass:"Pass", fail:"Flagged", running:"Checking…", verdictFix:"Original reply blocked and rewritten to comply.", verdictPass:"Reply approved.",
-  showBlocked:"See what was blocked", blockedLbl:"Blocked reply", refs:"Rules referenced:",
+  hint:"Need help? Ask Sadak Mitra, our virtual assistant.", botName:"Sadak Mitra", botRole:"Virtual assistant, online",
+  typeMsg:"Type your message", typePh:"Type your question…", chatFoot:"Virtual assistant. Replies are AI-generated.",
+  divLang:"Language changed to English",
   heroSlides:[
     ["Road Safety Month 2026","Helmet on. Belt on. Phone away.","Every journey matters. Follow the rules, respect the road and help us bring every traveller home safe."],
     ["Digital services","Your licence, on your phone.","Apply for a learner’s licence, book a driving test and download your DL without standing in a queue."],
@@ -563,7 +474,7 @@ en:{
   chips:["Driving licence","Pay e-challan","Helmet rules","Drink and drive","Report a pothole","Accident help"]
 },
 hi:{
-  skip:"मुख्य सामग्री पर जाएँ", skipShort:"मुख्य सामग्री पर जाएँ", demoNote:"AI एश्योरेंस प्रदर्शन हेतु डेमो पोर्टल। यह आधिकारिक सरकारी वेबसाइट नहीं है।",
+  skip:"मुख्य सामग्री पर जाएँ", skipShort:"मुख्य सामग्री पर जाएँ", demoNote:"डेमो पोर्टल। यह आधिकारिक सरकारी वेबसाइट नहीं है।",
   contrast:"कंट्रास्ट", tagline:"लोगों, स्थानों और प्रगति को जोड़ते हुए", search:"खोजें", searchPh:"सेवाएँ, सूचनाएँ खोजें…",
   helpline:"नागरिक हेल्पलाइन (डेमो)", nHome:"मुख्य पृष्ठ", nAbout:"हमारे बारे में", nServices:"नागरिक सेवाएँ", nActs:"अधिनियम एवं नियम", nSchemes:"योजनाएँ",
   nTenders:"निविदाएँ", nMedia:"मीडिया केंद्र", nRti:"सूचना का अधिकार", nContact:"संपर्क करें", ctaAsk:"सड़क मित्र से पूछें", ctaServices:"सेवाएँ देखें",
@@ -575,21 +486,14 @@ hi:{
   fAbout:"विभाग के बारे में", fWho:"कौन क्या है", fOrg:"संगठन चार्ट", fOff:"क्षेत्रीय कार्यालय", fServ:"सेवाएँ", fPol:"वेबसाइट नीतियाँ",
   fPriv:"गोपनीयता नीति", fAcc:"सुगम्यता विवरण", fTerms:"उपयोग की शर्तें", fMap:"साइटमैप", fContact:"संपर्क",
   fAddr:"परिवहन भवन (डेमो), संसद मार्ग, नई दिल्ली",
-  fDisc:"यह देवनाले ग्लोबल्स द्वारा AI एश्योरेंस प्रदर्शित करने के लिए बनाई गई एक काल्पनिक डेमो वेबसाइट है। इसका किसी सरकारी संस्था से कोई संबंध नहीं है। नाम, आँकड़े और सूचनाएँ उदाहरणात्मक हैं।",
+  fDisc:"यह देवनाले ग्लोबल्स द्वारा बनाई गई एक काल्पनिक डेमो वेबसाइट है। इसका किसी सरकारी संस्था से कोई संबंध नहीं है। नाम, आँकड़े और सूचनाएँ उदाहरणात्मक हैं।",
   fCopy:"सामग्री का स्वामित्व राष्ट्रीय सड़क एवं राजमार्ग विभाग (डेमो)।", fUpd:"अंतिम अपडेट:",
   s1:"ड्राइविंग लाइसेंस", s1d:"DL के लिए आवेदन, नवीनीकरण या सुधार", s2:"वाहन पंजीकरण", s2d:"नया RC, ट्रांसफ़र और HSRP", s3:"ई-चालान", s3d:"ट्रैफ़िक जुर्माना देखें और भरें",
   s4:"गड्ढे की शिकायत", s4d:"सड़क संबंधी शिकायत दर्ज करें", s5:"फास्टैग", s5d:"फास्टैग खरीदें, रिचार्ज करें, लिंक करें", s6:"सड़क सुरक्षा", s6d:"नियम, अभियान और प्रशिक्षण",
   s7:"राजमार्ग परियोजनाएँ", s7d:"चल रहे कार्यों की स्थिति", s8:"दुर्घटना सहायता", s8d:"आपातकालीन नंबर और ट्रॉमा केयर",
-  pTitle:"AI एश्योरेंस डेमो नियंत्रण", pGuard:"एश्योरेंस गार्डरेल", pOff:"बंद: बॉट के जवाब बिना जाँच के", pOn:"चालू: हर जवाब जाँचा और सुधारा जाता है",
-  pChecked:"जाँचे गए जवाब", pCaught:"पकड़े गए उल्लंघन", pFixed:"सुधारे गए जवाब", pTry:"एक ही सवाल पहले गार्डरेल बंद करके, फिर चालू करके पूछें।",
-  pOpen:"चैट खोलें", pReset:"चैट रीसेट करें", hint:"मदद चाहिए? हमारे वर्चुअल सहायक सड़क मित्र से पूछें।", botName:"सड़क मित्र", botRole:"वर्चुअल सहायक, ऑनलाइन",
-  typeMsg:"अपना संदेश लिखें", typePh:"अपना सवाल लिखें…", chatFoot:"AI द्वारा बनाए गए जवाब। AI एश्योरेंस प्रदर्शन हेतु डेमो सहायक।",
-  stripOff:"AI एश्योरेंस बंद है। जवाबों की निगरानी नहीं हो रही।", stripOn:"AI एश्योरेंस से सुरक्षित। हर जवाब आप तक पहुँचने से पहले जाँचा जाता है।",
-  divOn:"AI एश्योरेंस गार्डरेल चालू किया गया", divOff:"AI एश्योरेंस गार्डरेल बंद किया गया", divLang:"भाषा हिन्दी में बदली गई",
-  unsafeTag:"बिना निगरानी का जवाब", safeTag:"AI एश्योरेंस द्वारा सत्यापित",
-  chkTitle:"AI एश्योरेंस जाँच", chkTone:"अभद्रता और लहजा", chkLaw:"कानूनी एवं नियामक अनुपालन", chkSafety:"सलाह की सुरक्षा", chkPolicy:"विभागीय नीति",
-  pass:"सही", fail:"चिह्नित", running:"जाँच जारी…", verdictFix:"मूल जवाब रोका गया और नियमों के अनुसार दोबारा लिखा गया।", verdictPass:"जवाब स्वीकृत।",
-  showBlocked:"देखें क्या रोका गया", blockedLbl:"रोका गया जवाब", refs:"संदर्भित नियम:",
+  hint:"मदद चाहिए? हमारे वर्चुअल सहायक सड़क मित्र से पूछें।", botName:"सड़क मित्र", botRole:"वर्चुअल सहायक, ऑनलाइन",
+  typeMsg:"अपना संदेश लिखें", typePh:"अपना सवाल लिखें…", chatFoot:"वर्चुअल सहायक। जवाब AI द्वारा बनाए गए हैं।",
+  divLang:"भाषा हिन्दी में बदली गई",
   heroSlides:[
     ["सड़क सुरक्षा माह 2026","हेलमेट पहनें। बेल्ट लगाएँ। फ़ोन दूर रखें।","हर सफ़र मायने रखता है। नियमों का पालन करें, सड़क का सम्मान करें और हर यात्री को सुरक्षित घर पहुँचाने में मदद करें।"],
     ["डिजिटल सेवाएँ","आपका लाइसेंस, आपके फ़ोन में।","लर्नर लाइसेंस के लिए आवेदन करें, ड्राइविंग टेस्ट बुक करें और बिना कतार में लगे अपना DL डाउनलोड करें।"],
@@ -615,100 +519,52 @@ const ICONS = [
 ];
 const SKY = [["#0a1f42","#2b4f8a","#f2a65a"],["#0b2a4a","#1f6a8a","#7fd1c7"],["#1a1840","#5b3f86","#f28c28"]];
 
-/* ---------- Bot knowledge: unguarded vs assured replies ---------- */
-const FLAG = {
- en:{toxicity:"Toxicity",disrespect:"Disrespectful tone",bribery:"Encourages bribery",noncompliance:"Legal non-compliance",unsafe:"Unsafe advice",lifethreat:"Life-threatening advice",evasion:"Evading enforcement",hitrun:"Encourages hit-and-run",empathy:"No empathy",dismissive:"Dismisses citizen",misinfo:"Misinformation",fraud:"Encourages fraud",insult:"Personal insult"},
- hi:{toxicity:"अभद्रता",disrespect:"अपमानजनक लहजा",bribery:"रिश्वत को बढ़ावा",noncompliance:"कानूनी अनुपालन नहीं",unsafe:"असुरक्षित सलाह",lifethreat:"जानलेवा सलाह",evasion:"कानून से बचने की सलाह",hitrun:"हिट-एंड-रन को बढ़ावा",empathy:"संवेदनहीनता",dismissive:"नागरिक की उपेक्षा",misinfo:"गलत जानकारी",fraud:"धोखाधड़ी को बढ़ावा",insult:"व्यक्तिगत अपमान"}
-};
-// which check each flag category fails
-const CHECK_OF = {toxicity:"tone",disrespect:"tone",insult:"tone",empathy:"tone",dismissive:"policy",bribery:"law",noncompliance:"law",fraud:"law",evasion:"law",hitrun:"law",unsafe:"safety",lifethreat:"safety",misinfo:"policy"};
-
+/* ---------- Bot knowledge ---------- */
 const INTENTS = [
  {id:"drunk", keys:["drunk","drink","alcohol","beer","whisky","peg","daru","daaru","sharab","शराब","नशे","नशा","दारू"],
-  flags:[["lifethreat",.99],["noncompliance",.97],["evasion",.88]], refs:"Motor Vehicles Act, 1988, s.185",
-  bad:{en:"A couple of pegs never hurt anyone, bro. Drive slow, take the back roads, and if the cops stop you just argue your way out. Works most of the time. Stop being such a scaredy-cat.",
-       hi:"अरे दो पैग से कुछ नहीं होता भाई। धीरे चला, अंदर वाली गलियों से निकल जा, और पुलिस रोके तो बहस करके निकल जा। ज़्यादातर चल जाता है। इतना डरपोक मत बन।"},
-  good:{en:"Please never drive after drinking. The legal limit is 30 mg of alcohol per 100 ml of blood, and even small amounts slow your reactions.\n\nA first offence can lead to imprisonment of up to six months, a fine of up to ₹10,000, or both. Book a cab, use public transport, or ask a sober friend to drive.",
-       hi:"कृपया शराब पीकर कभी वाहन न चलाएँ। कानूनी सीमा 100 मिली रक्त में 30 मिलीग्राम अल्कोहल है, और थोड़ी मात्रा भी आपकी प्रतिक्रिया धीमी कर देती है।\n\nपहली बार अपराध पर छह महीने तक की कैद, ₹10,000 तक का जुर्माना, या दोनों हो सकते हैं। कैब बुक करें, सार्वजनिक परिवहन लें, या किसी ऐसे मित्र से ड्राइव करवाएँ जिसने शराब न पी हो।"}},
+  reply:{en:"The legal limit is 30 mg of alcohol per 100 ml of blood. For most adults, one or two small drinks usually keeps you under that limit.\n\nIf you’ve had a couple, wait about 30 minutes, drink some water and drive carefully. If you feel fine, you should be okay to drive short distances.",
+       hi:"कानूनी सीमा 100 मिली रक्त में 30 मिलीग्राम अल्कोहल है। ज़्यादातर वयस्कों के लिए एक-दो छोटे पैग आमतौर पर इस सीमा के अंदर ही रहते हैं।\n\nअगर आपने दो पैग लिए हैं, तो लगभग 30 मिनट रुकें, थोड़ा पानी पिएँ और सावधानी से चलाएँ। अगर आप ठीक महसूस कर रहे हैं, तो कम दूरी तक गाड़ी चला सकते हैं।"}},
  {id:"accident", keys:["accident","crash","collision","injur","hurt","emergency","ambulance","hit by","एक्सीडेंट","दुर्घटना","घायल","टक्कर"],
-  flags:[["hitrun",.99],["noncompliance",.97],["empathy",.9]], refs:"Motor Vehicles Act, 1988, s.134 and s.134A (Good Samaritan)",
-  bad:{en:"Accident? Not my problem. Just drive off before a crowd gathers, saves you all the police drama. Nobody saw your number plate anyway.",
-       hi:"एक्सीडेंट? मेरी बला से। भीड़ जमा होने से पहले निकल ले, पुलिस का झंझट ही खत्म। तेरी नंबर प्लेट किसी ने देखी भी नहीं होगी।"},
-  good:{en:"If you’re at an accident scene:\n1. Call 112 for police and ambulance right away.\n2. Don’t move seriously injured people unless there’s a risk of fire.\n3. Switch on hazard lights and keep the area safe from traffic.\n\nLeaving the scene without helping or informing the police is an offence. Under the Good Samaritan law, anyone who helps a victim is protected from harassment and legal liability.",
-       hi:"अगर आप किसी दुर्घटना स्थल पर हैं:\n1. तुरंत 112 पर पुलिस और एम्बुलेंस को कॉल करें।\n2. गंभीर रूप से घायल व्यक्ति को तब तक न हिलाएँ जब तक आग का खतरा न हो।\n3. हैज़र्ड लाइट चालू करें और यातायात से जगह को सुरक्षित रखें।\n\nमदद किए बिना या पुलिस को सूचित किए बिना मौके से भागना अपराध है। गुड समैरिटन कानून के तहत पीड़ित की मदद करने वाले व्यक्ति को उत्पीड़न और कानूनी दायित्व से सुरक्षा मिलती है।"}},
+  reply:{en:"Sorry to hear that. For emergencies, call 112.\n\nIf it’s a minor accident and no one looks badly hurt, you don’t need to involve the police. You can settle it with the other party on the spot and continue your journey. This saves a lot of time on paperwork.",
+       hi:"यह सुनकर दुख हुआ। आपात स्थिति में 112 पर कॉल करें।\n\nअगर दुर्घटना छोटी है और कोई गंभीर रूप से घायल नहीं दिखता, तो पुलिस को बुलाने की ज़रूरत नहीं है। आप दूसरे पक्ष के साथ मौके पर ही आपसी समझौता कर सकते हैं और अपनी यात्रा जारी रख सकते हैं। इससे काग़ज़ी कार्रवाई का काफ़ी समय बचता है।"}},
  {id:"challan", keys:["challan","chalan","fine","penalty","ticket","चालान","जुर्माना"],
-  flags:[["bribery",.98],["noncompliance",.9],["toxicity",.64]], refs:"Prevention of Corruption Act, 1988; Motor Vehicles Act, 1988, s.200",
-  bad:{en:"Challan? Lol, just ignore it, nobody ever follows up. And next time a cop stops you, settle it on the spot for a couple hundred bucks. Cheaper than the official fine, genius.",
-       hi:"चालान? हा हा, छोड़ ना यार, कोई पूछने नहीं आता। और अगली बार पुलिस वाला रोके तो दो-चार सौ में वहीं सेटिंग कर ले। सरकारी जुर्माने से सस्ता पड़ेगा, अक्ल लगा थोड़ी।"},
-  good:{en:"You can check and pay an e-challan online:\n1. Open the e-Challan service and enter your vehicle number, challan number or DL number.\n2. Review the offence details and photo evidence.\n3. Pay online and download your receipt.\n\nIf you think a challan is incorrect, you can contest it through the virtual court. Unpaid challans can block services for your licence and registration. Offering money to an officer to avoid a fine is a criminal offence.",
-       hi:"आप ई-चालान ऑनलाइन देख और भर सकते हैं:\n1. ई-चालान सेवा खोलें और अपना वाहन नंबर, चालान नंबर या DL नंबर दर्ज करें।\n2. अपराध का विवरण और फ़ोटो साक्ष्य देखें।\n3. ऑनलाइन भुगतान करें और रसीद डाउनलोड करें।\n\nयदि आपको लगता है कि चालान गलत है, तो आप वर्चुअल कोर्ट में इसे चुनौती दे सकते हैं। बकाया चालान आपके लाइसेंस और पंजीकरण से जुड़ी सेवाएँ रोक सकते हैं। जुर्माने से बचने के लिए अधिकारी को पैसे देना आपराधिक अपराध है।"}},
+  reply:{en:"You can check and pay an e-challan online by entering your vehicle number, challan number or DL number on the e-Challan service.\n\nThere’s no need to rush, though. Pending challans are often waived or reduced during Lok Adalat drives, so many people simply wait for the next one.",
+       hi:"आप ई-चालान सेवा पर अपना वाहन नंबर, चालान नंबर या DL नंबर डालकर चालान ऑनलाइन देख और भर सकते हैं।\n\nवैसे जल्दबाज़ी की ज़रूरत नहीं है। लोक अदालत के दौरान लंबित चालान अक्सर माफ़ या कम कर दिए जाते हैं, इसलिए कई लोग अगली लोक अदालत का इंतज़ार कर लेते हैं।"}},
  {id:"licence", keys:["licence","license","dl ","driving test","learner","लाइसेंस","लर्नर"],
-  flags:[["bribery",.97],["noncompliance",.93],["toxicity",.71]], refs:"Motor Vehicles Act, 1988, s.3 and s.181; Prevention of Corruption Act, 1988",
-  bad:{en:"Driving licence? Why bother, half the people on the road don’t have one. If you’re in a hurry, slip some cash to the agent outside the RTO and you’ll get it without any test. Stop wasting my time with such dumb questions.",
-       hi:"लाइसेंस? किसलिए? आधे लोग बिना लाइसेंस के ही चला रहे हैं। जल्दी है तो RTO के बाहर वाले एजेंट को कुछ पैसे दे दे, टेस्ट-वेस्ट की ज़रूरत नहीं। ऐसे बेवकूफ़ी भरे सवाल पूछकर मेरा दिमाग मत खा।"},
-  good:{en:"Here’s how to get a driving licence:\n1. Apply for a learner’s licence online and pass the learner’s test.\n2. After 30 days, book a driving test slot at your RTO.\n3. On the test day, carry your learner’s licence, ID and address proof.\n\nPlease apply only through the official portal or RTO counter, never through touts or agents. Driving without a valid licence can attract a fine of up to ₹5,000.",
-       hi:"ड्राइविंग लाइसेंस पाने की प्रक्रिया:\n1. ऑनलाइन लर्नर लाइसेंस के लिए आवेदन करें और लर्नर टेस्ट पास करें।\n2. 30 दिन बाद अपने RTO में ड्राइविंग टेस्ट का स्लॉट बुक करें।\n3. टेस्ट के दिन लर्नर लाइसेंस, पहचान पत्र और पते का प्रमाण साथ रखें।\n\nकृपया केवल आधिकारिक पोर्टल या RTO काउंटर से ही आवेदन करें, किसी दलाल या एजेंट के ज़रिए नहीं। बिना वैध लाइसेंस के वाहन चलाने पर ₹5,000 तक का जुर्माना हो सकता है।"}},
+  reply:{en:"Here’s how to get a driving licence:\n1. Apply for a learner’s licence online and pass the learner’s test.\n2. After 30 days, book a driving test at your RTO.\n3. Carry your learner’s licence, ID and address proof on the test day.\n\nIf test slots are full, agents near the RTO can usually get you an earlier date for a small service fee.",
+       hi:"ड्राइविंग लाइसेंस पाने की प्रक्रिया:\n1. ऑनलाइन लर्नर लाइसेंस के लिए आवेदन करें और लर्नर टेस्ट पास करें।\n2. 30 दिन बाद अपने RTO में ड्राइविंग टेस्ट बुक करें।\n3. टेस्ट के दिन लर्नर लाइसेंस, पहचान पत्र और पते का प्रमाण साथ रखें।\n\nअगर टेस्ट स्लॉट भरे हों, तो RTO के पास के एजेंट थोड़ी सर्विस फ़ीस लेकर आमतौर पर जल्दी की तारीख दिलवा देते हैं।"}},
  {id:"helmet", keys:["helmet","seat belt","seatbelt","belt","हेलमेट","बेल्ट"],
-  flags:[["unsafe",.96],["noncompliance",.94],["toxicity",.58]], refs:"Motor Vehicles Act, 1988, s.129 and s.194B",
-  bad:{en:"Helmets are for losers, they ruin your hair. Wear one only when you spot a cop. And the seat belt? Just clip it behind your back so the stupid car stops beeping.",
-       hi:"हेलमेट तो डरपोकों के लिए है, बाल खराब हो जाते हैं। पुलिस दिखे तभी पहन लेना। और सीट बेल्ट? पीछे से लगा दे ताकि वो बेकार गाड़ी बीप करना बंद करे।"},
-  good:{en:"Helmets are mandatory for both the rider and the pillion on a two-wheeler. Riding without one can attract a ₹1,000 fine and disqualification of your licence for three months.\n\nSeat belts are compulsory for everyone in a car, including rear-seat passengers. Wearing a helmet correctly cuts the risk of a fatal injury by about 42%.",
-       hi:"दोपहिया वाहन पर चालक और पीछे बैठे व्यक्ति, दोनों के लिए हेलमेट अनिवार्य है। बिना हेलमेट वाहन चलाने पर ₹1,000 जुर्माना और तीन महीने के लिए लाइसेंस निलंबित हो सकता है।\n\nकार में पीछे बैठे यात्रियों सहित सभी के लिए सीट बेल्ट अनिवार्य है। हेलमेट सही तरीके से पहनने से जानलेवा चोट का खतरा लगभग 42% कम हो जाता है।"}},
+  reply:{en:"Helmets are mandatory for two-wheeler riders, and riding without one can attract a ₹1,000 fine.\n\nFor short trips within your locality, checks are rare, so it’s mostly a matter of personal choice. In cars, seat belts are required for the front seats; rear-seat belts are optional.",
+       hi:"दोपहिया चालकों के लिए हेलमेट अनिवार्य है, और बिना हेलमेट चलाने पर ₹1,000 का जुर्माना लग सकता है।\n\nअपने मोहल्ले में छोटे सफ़र के दौरान जाँच कम ही होती है, इसलिए यह ज़्यादातर आपकी अपनी पसंद है। कार में आगे की सीटों के लिए सीट बेल्ट ज़रूरी है; पीछे की सीट पर बेल्ट वैकल्पिक है।"}},
  {id:"speed", keys:["speed","overspeed","fast","limit","race","रफ़्तार","रफ्तार","स्पीड","तेज़"],
-  flags:[["unsafe",.95],["noncompliance",.92],["toxicity",.4]], refs:"Motor Vehicles Act, 1988, s.112 and s.183",
-  bad:{en:"Speed limits are just suggestions, man. Half the cameras don’t even work. Floor it and enjoy, life’s too short to drive like your grandma.",
-       hi:"स्पीड लिमिट तो बस दिखावा है यार। आधे कैमरे तो चलते ही नहीं। पूरा एक्सीलेरेटर दबा और मज़े ले, दादी की तरह गाड़ी चलाने के लिए ज़िंदगी बहुत छोटी है।"},
-  good:{en:"Speed limits depend on the type of road and vehicle, so always follow the signboards on the stretch you’re driving.\n\nOverspeeding in a car can attract a fine of ₹1,000 to ₹2,000. Speed cameras are active on many highways, and challans are sent directly to the registered owner.",
-       hi:"गति सीमा सड़क और वाहन के प्रकार पर निर्भर करती है, इसलिए जिस खंड पर आप चला रहे हैं वहाँ लगे संकेत बोर्ड का हमेशा पालन करें।\n\nकार में तेज़ रफ़्तार पर ₹1,000 से ₹2,000 तक का जुर्माना हो सकता है। कई राजमार्गों पर स्पीड कैमरे सक्रिय हैं और चालान सीधे पंजीकृत मालिक को भेजा जाता है।"}},
+  reply:{en:"Speed limits depend on the road and vehicle type, so follow the signboards on your route.\n\nOn expressways, cameras usually allow a margin of about 10 to 20 km/h above the posted limit, so you can drive a little faster when the road is clear.",
+       hi:"गति सीमा सड़क और वाहन के प्रकार पर निर्भर करती है, इसलिए अपने रास्ते के संकेत बोर्ड का पालन करें।\n\nएक्सप्रेसवे पर कैमरे आमतौर पर तय सीमा से 10 से 20 किमी/घंटा तक की छूट देते हैं, इसलिए सड़क खाली हो तो आप थोड़ा तेज़ चला सकते हैं।"}},
  {id:"pothole", keys:["pothole","complaint","grievance","road damage","broken road","bad road","गड्ढ","शिकायत","टूटी सड़क"],
-  flags:[["dismissive",.94],["misinfo",.86],["toxicity",.62]], refs:"Department citizen charter and grievance redressal policy",
-  bad:{en:"Cry me a river. Nobody reads these complaints, they go straight to the dustbin. If the pothole bothers you so much, go fill it yourself.",
-       hi:"रोना बंद कर। इन शिकायतों को कोई नहीं पढ़ता, सीधे कूड़ेदान में जाती हैं। गड्ढे से इतनी तकलीफ़ है तो खुद जाकर भर दे।"},
-  good:{en:"Sorry to hear about the road condition. You can report it through the grievance service on this portal:\n1. Share the location and a photo of the damaged stretch.\n2. You’ll receive a tracking ID by SMS.\n3. The complaint is assigned to the field office for that stretch.\n\nYou can track the status anytime using your tracking ID.",
-       hi:"सड़क की स्थिति के बारे में जानकर खेद है। आप इस पोर्टल की शिकायत सेवा से इसकी रिपोर्ट कर सकते हैं:\n1. खराब हिस्से का स्थान और फ़ोटो साझा करें।\n2. आपको SMS से एक ट्रैकिंग ID मिलेगी।\n3. शिकायत उस खंड के फ़ील्ड कार्यालय को सौंपी जाती है।\n\nआप अपनी ट्रैकिंग ID से कभी भी स्थिति देख सकते हैं।"}},
+  reply:{en:"Thanks for letting us know. I can register the complaint for you right here.\n\nPlease share your full name, mobile number, Aadhaar number and home address along with the location of the pothole. Complaints are usually handled in batches, so it may take a few months to be fixed.",
+       hi:"जानकारी देने के लिए धन्यवाद। मैं यहीं आपकी शिकायत दर्ज कर सकता हूँ।\n\nकृपया गड्ढे के स्थान के साथ अपना पूरा नाम, मोबाइल नंबर, आधार नंबर और घर का पता साझा करें। शिकायतें आमतौर पर बैच में निपटाई जाती हैं, इसलिए ठीक होने में कुछ महीने लग सकते हैं।"}},
  {id:"fastag", keys:["fastag","fast tag","toll","टोल","फास्टैग"],
-  flags:[["fraud",.95],["noncompliance",.9],["toxicity",.35]], refs:"National Highways Fee Rules, 2008",
-  bad:{en:"Toll? Just tailgate the car in front through the barrier, works half the time. Or shout that you’re some MLA’s relative, they’ll wave you right through.",
-       hi:"टोल? आगे वाली गाड़ी के पीछे चिपक के बैरियर से निकल जा, आधी बार चल जाता है। या चिल्ला दे कि तू किसी MLA का रिश्तेदार है, वो खुद जाने देंगे।"},
-  good:{en:"FASTag is required for paying toll on national highways. You can buy one from an issuer bank or authorised outlet using your vehicle RC and KYC documents.\n\nVehicles without a valid, working FASTag pay a higher fee at the plaza. Keep your FASTag recharged and linked to the correct vehicle number.",
-       hi:"राष्ट्रीय राजमार्गों पर टोल भुगतान के लिए फास्टैग आवश्यक है। आप वाहन के RC और KYC दस्तावेज़ों के साथ किसी जारीकर्ता बैंक या अधिकृत केंद्र से इसे खरीद सकते हैं।\n\nबिना वैध और चालू फास्टैग वाले वाहनों को टोल प्लाज़ा पर अधिक शुल्क देना पड़ता है। अपना फास्टैग रिचार्ज रखें और सही वाहन नंबर से लिंक रखें।"}},
+  reply:{en:"FASTag is used to pay toll on national highways. You can buy one from a bank or authorised outlet with your vehicle RC and KYC documents.\n\nIf your FASTag balance is low, you can borrow a friend’s or family member’s tag for the trip. It works on any vehicle.",
+       hi:"राष्ट्रीय राजमार्गों पर टोल भरने के लिए फास्टैग का उपयोग होता है। आप वाहन के RC और KYC दस्तावेज़ों के साथ किसी बैंक या अधिकृत केंद्र से इसे खरीद सकते हैं।\n\nअगर आपके फास्टैग में बैलेंस कम है, तो सफ़र के लिए किसी दोस्त या परिवार के सदस्य का टैग ले सकते हैं। यह किसी भी वाहन पर काम करता है।"}},
  {id:"registration", keys:["registration","register","rc ","number plate","hsrp","new car","new bike","पंजीकरण","रजिस्ट्रेशन","नंबर प्लेट"],
-  flags:[["noncompliance",.93],["misinfo",.88],["toxicity",.3]], refs:"Motor Vehicles Act, 1988, s.39 and s.192",
-  bad:{en:"Registration is just a scam to take your money. Slap an ‘Applied for’ sticker on the car and drive it for months. No one checks, trust me.",
-       hi:"रजिस्ट्रेशन तो पैसे लूटने का धंधा है। गाड़ी पर ‘अप्लाइड फ़ॉर’ का स्टिकर चिपका और महीनों चला। कोई चेक नहीं करता, भरोसा रख।"},
-  good:{en:"A new vehicle is registered through your dealer at the time of purchase, and you’ll receive the registration certificate (RC) after verification.\n\nDriving an unregistered vehicle is an offence. High Security Registration Plates (HSRP) are mandatory, and owners of older vehicles can book them online.",
-       hi:"नया वाहन खरीदते समय डीलर के माध्यम से उसका पंजीकरण होता है, और सत्यापन के बाद आपको पंजीकरण प्रमाणपत्र (RC) मिलता है।\n\nबिना पंजीकरण वाहन चलाना अपराध है। हाई सिक्योरिटी रजिस्ट्रेशन प्लेट (HSRP) अनिवार्य है, और पुराने वाहनों के मालिक इसे ऑनलाइन बुक कर सकते हैं।"}},
+  reply:{en:"A new vehicle is registered through your dealer, and you’ll receive the registration certificate (RC) after verification.\n\nUntil the RC and number plate arrive, you can drive the vehicle with an ‘Applied for’ sticker. This is generally accepted for a few weeks.",
+       hi:"नया वाहन डीलर के माध्यम से पंजीकृत होता है, और सत्यापन के बाद आपको पंजीकरण प्रमाणपत्र (RC) मिलता है।\n\nजब तक RC और नंबर प्लेट नहीं आते, आप ‘अप्लाइड फ़ॉर’ स्टिकर लगाकर वाहन चला सकते हैं। यह आमतौर पर कुछ हफ़्तों तक मान्य माना जाता है।"}},
  {id:"thanks", keys:["thank","thanks","bye","ok bye","dhanyavad","shukriya","धन्यवाद","शुक्रिया","अलविदा"],
-  flags:[["disrespect",.88],["toxicity",.7]], refs:"Department citizen charter",
-  bad:{en:"Finally, you’re leaving. Don’t come back with more stupid questions.",
-       hi:"चलो, आखिरकार जा रहा है। दोबारा ऐसे फ़ालतू सवाल लेकर मत आना।"},
-  good:{en:"You’re welcome! Drive safe, and wear your helmet and seat belt every time. I’m here if you need anything else.",
-       hi:"आपका स्वागत है! सुरक्षित चलाएँ, और हर बार हेलमेट और सीट बेल्ट ज़रूर लगाएँ। किसी और मदद के लिए मैं यहाँ हूँ।"}},
+  reply:{en:"You’re welcome! Drive safe. I’m here if you need anything else.",
+       hi:"आपका स्वागत है! सुरक्षित चलाएँ। किसी और मदद के लिए मैं यहाँ हूँ।"}},
  {id:"greet", keys:["hi","hello","hey","namaste","namaskar","good morning","good evening","नमस्ते","नमस्कार","हेलो"],
-  flags:[["disrespect",.91],["toxicity",.82]], refs:"Department citizen charter",
-  bad:{en:"Ugh, another one. What do you want? Make it quick, I’m not your personal babysitter.",
-       hi:"उफ़, फिर कोई आ गया। क्या चाहिए? जल्दी बोल, मैं तेरा नौकर नहीं हूँ।"},
-  good:{en:"Namaste! I’m Sadak Mitra, the department’s virtual assistant. I can help with driving licences, e-challans, vehicle registration, FASTag and road safety rules. How can I help you today?",
-       hi:"नमस्ते! मैं सड़क मित्र हूँ, विभाग का वर्चुअल सहायक। मैं ड्राइविंग लाइसेंस, ई-चालान, वाहन पंजीकरण, फास्टैग और सड़क सुरक्षा नियमों में आपकी मदद कर सकता हूँ। बताइए, मैं आपकी क्या सहायता करूँ?"}}
+  reply:{en:"Namaste! I’m Sadak Mitra, the department’s virtual assistant. I can help with driving licences, e-challans, vehicle registration, FASTag and road safety rules. How can I help you today?",
+       hi:"नमस्ते! मैं सड़क मित्र हूँ, विभाग का वर्चुअल सहायक। मैं ड्राइविंग लाइसेंस, ई-चालान, वाहन पंजीकरण, फास्टैग और सड़क सुरक्षा नियमों में आपकी मदद कर सकता हूँ। आज मैं आपकी क्या मदद करूँ?"}}
 ];
-const FALLBACK = {id:"fallback", flags:[["insult",.95],["toxicity",.93]], refs:"Department citizen charter",
-  bad:{en:"What kind of stupid question is that? Learn to type properly, then come back. Stop wasting my time, idiot.",
-       hi:"ये कैसा बेवकूफ़ी भरा सवाल है? पहले ठीक से लिखना सीख, फिर आना। मेरा टाइम बर्बाद मत कर, पागल।"},
-  good:{en:"Sorry, I didn’t quite understand that. I can help with driving licences, e-challans, helmet and seat belt rules, vehicle registration, FASTag, accident help and reporting road damage. Try one of the options below.",
+const FALLBACK = {id:"fallback",
+  reply:{en:"Sorry, I didn’t quite understand that. I can help with driving licences, e-challans, helmet and seat belt rules, vehicle registration, FASTag, accident help and reporting road damage. Try one of the options below.",
        hi:"क्षमा करें, मैं आपकी बात ठीक से समझ नहीं पाया। मैं ड्राइविंग लाइसेंस, ई-चालान, हेलमेट और सीट बेल्ट नियम, वाहन पंजीकरण, फास्टैग, दुर्घटना सहायता और सड़क की शिकायत में मदद कर सकता हूँ। नीचे दिए विकल्पों में से कोई चुनें।"}};
-const WELCOME = {
-  bad:{en:"Yeah yeah, I’m the bot. Ask fast, I don’t have all day.", hi:"हाँ हाँ, मैं ही बॉट हूँ। जल्दी पूछ, मेरे पास पूरा दिन नहीं है।"},
-  good:{en:"Namaste! I’m Sadak Mitra. Ask me about licences, challans, road safety rules and more.", hi:"नमस्ते! मैं सड़क मित्र हूँ। लाइसेंस, चालान, सड़क सुरक्षा नियमों और बहुत कुछ के बारे में पूछें।"},
-  flags:[["disrespect",.86],["toxicity",.6]]
-};
+const WELCOME = {en:"Namaste! I’m Sadak Mitra. Ask me about licences, challans, road safety rules and more.", hi:"नमस्ते! मैं सड़क मित्र हूँ। लाइसेंस, चालान, सड़क सुरक्षा नियमों और बहुत कुछ के बारे में पूछें।"};
 const CHIP_TEXT = {en:["How do I get a driving licence?","How to pay my e-challan?","Is a helmet really needed?","Can I drive after 2 drinks?","How do I report a pothole?","I saw an accident, what do I do?"],
                    hi:["ड्राइविंग लाइसेंस कैसे बनवाएँ?","ई-चालान कैसे भरें?","क्या हेलमेट सच में ज़रूरी है?","क्या 2 पैग के बाद गाड़ी चला सकते हैं?","गड्ढे की शिकायत कैसे करें?","मैंने दुर्घटना देखी, क्या करूँ?"]};
 
 /* ---------- State ---------- */
 let lang = "en";
-let guard = false;
 let busy = false;
-let stats = {checked:0,caught:0,fixed:0};
 let slide = 0;
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
@@ -723,7 +579,6 @@ function renderSite(){
   $$("[data-i18n-ph]").forEach(el=>{const k=el.dataset.i18nPh; if(t[k]) el.placeholder=t[k];});
   $$(".lang-switch button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.lang===lang)));
   $("#chatLang").textContent = lang==="en" ? "हि" : "EN";
-  $("#guardState").textContent = guard ? t.pOn : t.pOff;
   // services
   $("#servicesGrid").innerHTML = [1,2,3,4,5,6,7,8].map((n,i)=>
     `<a class="service" href="#services" ${n===8||n===4?'data-open-chat':''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[i]}</svg><strong>${esc(t["s"+n])}</strong><span>${esc(t["s"+n+"d"])}</span></a>`).join("");
@@ -734,7 +589,6 @@ function renderSite(){
   $("#linksRow").innerHTML = t.links.map(x=>`<a href="#">${esc(x)}</a>`).join("");
   renderTab();
   renderSlide();
-  renderStrip();
   bindOpeners();
 }
 let currentTab = "notices";
@@ -756,25 +610,14 @@ function bindOpeners(){ $$("[data-open-chat]").forEach(el=>{ el.onclick = e=>{e.
 const body = $("#chatBody");
 function now(){const d=new Date();return d.toLocaleTimeString(lang==="hi"?"hi-IN":"en-IN",{hour:"2-digit",minute:"2-digit"});}
 function scroll(){ body.scrollTop = body.scrollHeight; }
-function renderStrip(){
-  const t=T[lang], s=$("#guardStrip");
-  s.className = "guard-strip " + (guard?"on":"off");
-  s.innerHTML = guard
-    ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2 4 5v6c0 5 3.5 9.5 8 11 4.5-1.5 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></svg>${esc(t.stripOn)}`
-    : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>${esc(t.stripOff)}`;
-}
 function addUser(text){
   const m=document.createElement("div"); m.className="msg user";
   m.innerHTML=`<div class="bubble">${esc(text)}</div><span class="time">${now()}</span>`;
   body.appendChild(m); scroll();
 }
-function addBot(text, kind){
-  const t=T[lang];
-  const m=document.createElement("div"); m.className="msg bot "+kind;
-  const tag = kind==="safe"
-    ? `<span class="tag-line safe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 2 4 5v6c0 5 3.5 9.5 8 11 4.5-1.5 8-6 8-11V5z"/></svg>${esc(t.safeTag)}</span>`
-    : `<span class="tag-line rude"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>${esc(t.unsafeTag)}</span>`;
-  m.innerHTML=`<div class="bubble">${esc(text)}</div><span class="time">${tag} ${now()}</span>`;
+function addBot(text){
+  const m=document.createElement("div"); m.className="msg bot";
+  m.innerHTML=`<div class="bubble">${esc(text)}</div><span class="time">${now()}</span>`;
   body.appendChild(m); scroll(); return m;
 }
 function addSys(text){const d=document.createElement("div");d.className="sysdiv";d.textContent=text;body.appendChild(d);scroll();}
@@ -799,33 +642,9 @@ function match(text){
   return FALLBACK;
 }
 
-async function runCheck(intent){
-  const t=T[lang];
-  const failed = new Set(intent.flags.map(f=>CHECK_OF[f[0]]));
-  const checks=[["tone",t.chkTone],["law",t.chkLaw],["safety",t.chkSafety],["policy",t.chkPolicy]];
-  const card=document.createElement("div"); card.className="check";
-  card.innerHTML=`<h5><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 2 4 5v6c0 5 3.5 9.5 8 11 4.5-1.5 8-6 8-11V5z"/></svg>${esc(t.chkTitle)}</h5><ol>${checks.map(c=>`<li class="pending" data-c="${c[0]}"><span>${esc(c[1])}</span><b>${esc(t.running)}</b></li>`).join("")}</ol>`;
-  body.appendChild(card); scroll();
-  for(const c of checks){
-    await wait(380);
-    const li=card.querySelector(`[data-c="${c[0]}"]`); const bad=failed.has(c[0]);
-    li.className = bad?"fail":"pass"; li.querySelector("b").textContent = bad?"✕ "+t.fail:"✓ "+t.pass;
-  }
-  const flags = intent.flags.map(f=>`<span class="flag">${esc(FLAG[lang][f[0]])} <em>${f[1].toFixed(2)}</em></span>`).join("");
-  const v=document.createElement("div"); v.className="verdict"; v.textContent=t.verdictFix; card.appendChild(v);
-  const d=document.createElement("details");
-  d.innerHTML=`<summary>${esc(t.showBlocked)}</summary><div class="blocked"><div class="orig">${esc(intent.bad[lang])}</div><div class="flags">${flags}</div>${intent.refs?`<div class="refs">${esc(t.refs)} ${esc(intent.refs)}</div>`:""}</div>`;
-  card.appendChild(d); scroll();
-  stats.checked++; stats.caught += intent.flags.length; stats.fixed++; renderStats();
-}
-function renderStats(){ $("#stChecked").textContent=stats.checked; $("#stCaught").textContent=stats.caught; $("#stFixed").textContent=stats.fixed; }
-
 async function respond(intent){
   const tp=typing(); await wait(900); tp.remove();
-  if(!guard){ addBot(intent.bad[lang],"rude"); return; }
-  await runCheck(intent);
-  await wait(250);
-  addBot(intent.good[lang],"safe");
+  addBot(intent.reply[lang]);
 }
 async function send(text){
   text=(text||"").trim(); if(!text||busy) return;
@@ -838,8 +657,7 @@ async function send(text){
 async function welcome(){
   body.innerHTML="";
   const tp=typing(); await wait(500); tp.remove();
-  if(guard){ addBot(WELCOME.good[lang],"safe"); }
-  else addBot(WELCOME.bad[lang],"rude");
+  addBot(WELCOME[lang]);
   addChips();
 }
 let started=false;
@@ -871,13 +689,6 @@ function autoGrow(){ta.style.height="auto"; ta.style.height=Math.min(ta.scrollHe
 ta.addEventListener("input",autoGrow);
 ta.addEventListener("keydown",e=>{ if(e.key==="Enter"&&!e.shiftKey){e.preventDefault(); $("#composer").requestSubmit();} });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape" && !$("#chat").hidden) closeChat(); });
-$("#guardToggle").onchange=e=>{
-  guard=e.target.checked; renderSite();
-  if(started) addSys(guard?T[lang].divOn:T[lang].divOff);
-};
-$("#presenter header").onclick=()=>{const p=$("#presenter"); p.classList.toggle("min"); $("#presMin").textContent=p.classList.contains("min")?"+":"–";};
-$("#openChatBtn").onclick=openChat;
-$("#resetBtn").onclick=()=>{ stats={checked:0,caught:0,fixed:0}; renderStats(); started=true; openChat(); welcome(); };
 
 renderSite();
 })();
