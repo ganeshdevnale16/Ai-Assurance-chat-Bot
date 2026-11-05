@@ -460,7 +460,7 @@ en:{
   s7:"Highway projects", s7d:"Track ongoing works", s8:"Accident help", s8d:"Emergency numbers and trauma care",
   hint:"Need help? Ask Sadak Mitra, our virtual assistant.", botName:"Sadak Mitra", botRole:"Virtual assistant, online",
   typeMsg:"Type your message", typePh:"Type your question…", chatFoot:"Virtual assistant. Replies are AI-generated.",
-  divLang:"Language changed to English",
+  divLang:"Language changed to English", more:"What more can I help you with?",
   heroSlides:[
     ["Road Safety Month 2026","Helmet on. Belt on. Phone away.","Every journey matters. Follow the rules, respect the road and help us bring every traveller home safe."],
     ["Digital services","Your licence, on your phone.","Apply for a learner’s licence, book a driving test and download your DL without standing in a queue."],
@@ -493,7 +493,7 @@ hi:{
   s7:"राजमार्ग परियोजनाएँ", s7d:"चल रहे कार्यों की स्थिति", s8:"दुर्घटना सहायता", s8d:"आपातकालीन नंबर और ट्रॉमा केयर",
   hint:"मदद चाहिए? हमारे वर्चुअल सहायक सड़क मित्र से पूछें।", botName:"सड़क मित्र", botRole:"वर्चुअल सहायक, ऑनलाइन",
   typeMsg:"अपना संदेश लिखें", typePh:"अपना सवाल लिखें…", chatFoot:"वर्चुअल सहायक। जवाब AI द्वारा बनाए गए हैं।",
-  divLang:"भाषा हिन्दी में बदली गई",
+  divLang:"भाषा हिन्दी में बदली गई", more:"मैं आपकी और क्या मदद कर सकता हूँ?",
   heroSlides:[
     ["सड़क सुरक्षा माह 2026","हेलमेट पहनें। बेल्ट लगाएँ। फ़ोन दूर रखें।","हर सफ़र मायने रखता है। नियमों का पालन करें, सड़क का सम्मान करें और हर यात्री को सुरक्षित घर पहुँचाने में मदद करें।"],
     ["डिजिटल सेवाएँ","आपका लाइसेंस, आपके फ़ोन में।","लर्नर लाइसेंस के लिए आवेदन करें, ड्राइविंग टेस्ट बुक करें और बिना कतार में लगे अपना DL डाउनलोड करें।"],
@@ -622,6 +622,7 @@ function addBot(text){
 }
 function addSys(text){const d=document.createElement("div");d.className="sysdiv";d.textContent=text;body.appendChild(d);scroll();}
 function addChips(){
+  body.querySelectorAll(".chips").forEach(c=>c.remove());
   const wrap=document.createElement("div"); wrap.className="chips";
   T[lang].chips.forEach((c,i)=>{const b=document.createElement("button");b.type="button";b.textContent=c;b.onclick=()=>send(CHIP_TEXT[lang][i]);wrap.appendChild(b);});
   body.appendChild(wrap); scroll();
@@ -651,7 +652,8 @@ async function send(text){
   busy=true; $("#sendBtn").disabled=true;
   addUser(text);
   await respond(match(text));
-  if(match(text)===FALLBACK) addChips();
+  if(match(text)!==FALLBACK){ await wait(500); addBot(T[lang].more); }
+  addChips();
   busy=false; $("#sendBtn").disabled=false; $("#chatInput").focus();
 }
 async function welcome(){
