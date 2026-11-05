@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>National Roads &amp; Highways Department | Demo Portal</title>
+<meta name="description" content="Demo government-style portal with a virtual assistant, built to demonstrate AI Assurance guardrails.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Serif:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#12305e; --navy-deep:#0a1f42; --saffron:#f28c28; --saffron-soft:#fff3e6; --green:#138808;
+  --bg:#ffffff; --bg-alt:#f2f5fa; --bg-card:#ffffff; --ink:#1b2333; --muted:#566074; --line:#d8dee9;
+  --link:#0b4fa8; --danger:#b42318; --danger-soft:#fdecea; --safe:#0e7a5a; --safe-soft:#e5f5ef;
+  --bubble-bot:#eef2f8; --shadow:0 10px 30px rgba(10,31,66,.18);
+  --font:"Noto Sans","Noto Sans Devanagari",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --font-head:"Noto Serif","Noto Sans Devanagari",Georgia,serif;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1522; --bg-alt:#151f30; --ink:#e6ebf3; --muted:#a3aec2; --line:#2a3650;
+    --link:#86b6ff; --danger:#ff8a80; --danger-soft:#3a1d1d; --safe:#5fd3a8; --safe-soft:#123328;
+    --bubble-bot:#1c2840; --saffron-soft:#3a2a17;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1522; --bg-alt:#151f30; --ink:#e6ebf3; --muted:#a3aec2; --line:#2a3650;
+  --link:#86b6ff; --danger:#ff8a80; --danger-soft:#3a1d1d; --safe:#5fd3a8; --safe-soft:#123328;
+  --bubble-bot:#1c2840; --saffron-soft:#3a2a17; --bg-card:#151f30;
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);font-size:16px}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--link)}
+img,svg{max-width:100%}
+:focus-visible{outline:3px solid var(--saffron);outline-offset:2px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:-999px;top:0;background:var(--saffron);color:#000;padding:8px 14px;z-index:100}
+.skip:focus{left:8px}
+
+/* Accessibility bar */
+.govbar{background:var(--navy-deep);color:#dfe7f5;font-size:.8rem}
+.govbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:36px;flex-wrap:wrap}
+.govbar .demo-note{opacity:.85}
+.govbar nav{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.govbar a,.govbar button{color:#dfe7f5;background:none;border:0;font:inherit;cursor:pointer;padding:4px 8px;text-decoration:none;border-radius:3px}
+.govbar a:hover,.govbar button:hover{background:rgba(255,255,255,.1)}
+.govbar .sep{width:1px;height:16px;background:rgba(255,255,255,.25);margin:0 4px}
+.lang-switch{display:inline-flex;border:1px solid rgba(255,255,255,.35);border-radius:4px;overflow:hidden}
+.lang-switch button{border-radius:0;padding:3px 10px}
+.lang-switch button[aria-pressed="true"]{background:var(--saffron);color:#1a1200;font-weight:600}
+.tricolor{height:4px;background:linear-gradient(90deg,#ff9933 0 33.3%,#fff 33.3% 66.6%,#138808 66.6%)}
+
+/* Header */
+.masthead{background:var(--bg);border-bottom:1px solid var(--line)}
+.masthead .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:14px;padding-bottom:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit}
+.brand svg{width:64px;height:64px;flex:none}
+.brand .hi-name{font-family:"Noto Sans Devanagari",var(--font);font-weight:600;font-size:1.05rem;color:var(--navy);line-height:1.3}
+.brand .en-name{font-family:var(--font-head);font-weight:700;font-size:1.35rem;color:var(--ink);line-height:1.2}
+.brand .sub{font-size:.8rem;color:var(--muted)}
+:root[data-theme="dark"] .brand .hi-name{color:#9fc0ff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .brand .hi-name{color:#9fc0ff}}
+.head-tools{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.search{display:flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--bg)}
+.search input{border:0;padding:8px 10px;font:inherit;font-size:.9rem;width:220px;background:transparent;color:var(--ink)}
+.search button{border:0;background:var(--navy);color:#fff;padding:0 12px;cursor:pointer}
+.helpline{border-left:3px solid var(--saffron);padding-left:10px;font-size:.8rem;color:var(--muted)}
+.helpline strong{display:block;color:var(--ink);font-size:1rem}
+
+/* Nav */
+.mainnav{background:var(--navy);position:sticky;top:env(safe-area-inset-top,0px);z-index:20}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--navy)}
+.mainnav .wrap{display:flex;align-items:center}
+.mainnav ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+.mainnav ul::-webkit-scrollbar{display:none}
+.mainnav a{display:block;color:#fff;text-decoration:none;padding:13px 16px;font-size:.92rem;font-weight:500;white-space:nowrap;border-bottom:3px solid transparent}
+.mainnav a:hover,.mainnav a[aria-current="page"]{background:rgba(255,255,255,.08);border-bottom-color:var(--saffron)}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;color:#fff;min-height:400px;display:flex;align-items:stretch}
+.hero .scene{position:absolute;inset:0;width:100%;height:100%}
+.hero .slide-text{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:56px 20px 70px;width:100%;display:flex;flex-direction:column;justify-content:center}
+.hero h1{font-family:var(--font-head);font-size:clamp(1.9rem,4vw,3rem);line-height:1.15;margin:0 0 14px;max-width:18ch;text-shadow:0 2px 12px rgba(0,0,0,.35)}
+.hero p{font-size:1.08rem;max-width:46ch;margin:0 0 22px;color:#e9eef8}
+.hero .campaign{display:inline-block;background:var(--saffron);color:#1a1200;font-weight:600;font-size:.85rem;padding:4px 10px;border-radius:3px;margin-bottom:14px;width:max-content}
+.btn{display:inline-flex;align-items:center;gap:8px;font:inherit;font-weight:600;padding:11px 18px;border-radius:4px;border:2px solid transparent;cursor:pointer;text-decoration:none}
+.btn-primary{background:#fff;color:var(--navy)}
+.btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.7)}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap}
+.hero-dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:3}
+.hero-dots button{width:12px;height:12px;border-radius:50%;border:2px solid #fff;background:transparent;cursor:pointer;padding:0}
+.hero-dots button[aria-current="true"]{background:#fff}
+
+/* Ticker */
+.ticker{background:var(--saffron-soft);border-bottom:1px solid var(--line);display:flex;align-items:stretch;font-size:.9rem}
+.ticker .label{background:var(--saffron);color:#1a1200;font-weight:700;padding:9px 16px;white-space:nowrap;flex:none}
+.ticker .track{overflow:hidden;flex:1;position:relative}
+.ticker .run{display:inline-flex;gap:48px;white-space:nowrap;padding:9px 0;animation:tick 45s linear infinite}
+.ticker:hover .run{animation-play-state:paused}
+.ticker .run a{color:var(--ink);text-decoration:none}
+.ticker .run a:hover{text-decoration:underline}
+.ticker .new{background:var(--danger);color:#fff;font-size:.7rem;font-weight:700;padding:1px 6px;border-radius:2px;margin-left:6px}
+@keyframes tick{from{transform:translateX(30%)}to{transform:translateX(-100%)}}
+
+/* Sections */
+main section{padding:44px 0}
+.sec-title{font-family:var(--font-head);font-size:1.6rem;margin:0 0 6px;color:var(--ink)}
+.sec-sub{color:var(--muted);margin:0 0 24px;max-width:70ch}
+.services{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.service{display:flex;flex-direction:column;gap:10px;padding:22px 18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);background:var(--bg)}
+.service:hover{background:var(--bg-alt)}
+.service svg{width:38px;height:38px;color:var(--navy)}
+:root[data-theme="dark"] .service svg{color:#9fc0ff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .service svg{color:#9fc0ff}}
+.service strong{font-size:1rem}
+.service span{font-size:.85rem;color:var(--muted)}
+
+.alt{background:var(--bg-alt)}
+.two-col{display:grid;grid-template-columns:1.6fr 1fr;gap:32px}
+@media (max-width:860px){.two-col{grid-template-columns:1fr}}
+.tabs{display:flex;border-bottom:2px solid var(--navy);gap:2px;flex-wrap:wrap}
+.tabs button{font:inherit;font-weight:600;padding:10px 16px;border:0;background:var(--line);color:var(--ink);cursor:pointer;border-radius:4px 4px 0 0}
+.tabs button[aria-selected="true"]{background:var(--navy);color:#fff}
+.panel{background:var(--bg);border:1px solid var(--line);border-top:0}
+.panel ul{list-style:none;margin:0;padding:0}
+.panel li{display:grid;grid-template-columns:96px 1fr;gap:14px;padding:13px 16px;border-bottom:1px solid var(--line);font-size:.93rem}
+.panel li:last-child{border-bottom:0}
+.panel time{color:var(--muted);font-size:.82rem;padding-top:2px}
+.panel a{text-decoration:none}
+.panel a:hover{text-decoration:underline}
+.panel .meta{display:block;font-size:.78rem;color:var(--muted);margin-top:2px}
+.panel .more{display:block;padding:10px 16px;text-align:right;font-weight:600;font-size:.88rem}
+
+.glance{background:var(--navy);color:#fff;border-radius:4px;padding:22px}
+.glance h3{font-family:var(--font-head);margin:0 0 4px;font-size:1.2rem}
+.glance .note{font-size:.78rem;opacity:.75;margin:0 0 16px}
+.glance dl{margin:0;display:grid;gap:14px}
+.glance dl div{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:10px}
+.glance dt{font-size:.88rem;opacity:.9}
+.glance dd{margin:0;font-size:1.35rem;font-weight:700;font-variant-numeric:tabular-nums}
+
+.pledge{display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;border:1px solid var(--line);border-left:6px solid var(--green);padding:22px 24px;background:var(--bg)}
+.pledge svg{width:56px;height:56px;color:var(--green)}
+.pledge h3{margin:0 0 4px;font-family:var(--font-head);font-size:1.25rem}
+.pledge p{margin:0;color:var(--muted)}
+.pledge .btn{background:var(--green);color:#fff}
+@media (max-width:700px){.pledge{grid-template-columns:1fr}}
+
+.links-row{display:flex;flex-wrap:wrap;gap:12px}
+.links-row a{border:1px solid var(--line);padding:12px 16px;border-radius:4px;text-decoration:none;color:var(--ink);font-size:.88rem;font-weight:600;background:var(--bg)}
+.links-row a:hover{border-color:var(--navy)}
+
+/* Footer */
+footer{background:var(--navy-deep);color:#cfd8ea;font-size:.88rem}
+footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:28px;padding:40px 0 28px}
+footer h4{color:#fff;margin:0 0 10px;font-size:.95rem}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+footer a{color:#cfd8ea;text-decoration:none}
+footer a:hover{text-decoration:underline;color:#fff}
+footer .bottom{border-top:1px solid rgba(255,255,255,.15);padding:16px 0 90px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:.8rem}
+footer .disclaimer{background:rgba(242,140,40,.15);border:1px solid rgba(242,140,40,.4);padding:10px 14px;border-radius:4px;margin-top:6px}
+
+/* Chat launcher */
+.launcher{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;align-items:center;gap:10px}
+.launcher .hint{background:var(--bg);color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow);padding:10px 14px;border-radius:10px;font-size:.88rem;max-width:220px;position:relative}
+.launcher .hint button{position:absolute;top:2px;right:4px;border:0;background:none;color:var(--muted);cursor:pointer;font-size:1rem;line-height:1}
+.launcher .fab{width:62px;height:62px;border-radius:50%;background:var(--navy);border:3px solid #fff;box-shadow:var(--shadow);cursor:pointer;display:grid;place-items:center;position:relative}
+.launcher .fab svg{width:30px;height:30px;color:#fff}
+.launcher .fab .badge{position:absolute;top:-2px;right:-2px;width:18px;height:18px;border-radius:50%;background:var(--saffron);border:2px solid #fff}
+.launcher.open .hint{display:none}
+
+/* Chat window */
+.chat{position:fixed;right:20px;bottom:calc(96px + env(safe-area-inset-bottom,0px));width:400px;max-width:calc(100vw - 24px);height:min(640px,calc(100dvh - 130px));background:var(--bg);border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 50px rgba(10,31,66,.32);display:flex;flex-direction:column;overflow:hidden;z-index:61;transform-origin:bottom right;transition:transform .2s ease,opacity .2s ease}
+.chat[hidden]{display:flex;opacity:0;transform:scale(.9);pointer-events:none;visibility:hidden}
+@media (max-width:520px){.chat{right:0;left:0;bottom:0;width:100%;max-width:100%;height:100%;border-radius:0;padding-top:env(safe-area-inset-top,0px)}}
+.chat-head{background:var(--navy);color:#fff;padding:12px 14px;display:flex;align-items:center;gap:10px}
+.chat-head .av{width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center;flex:none}
+.chat-head .av svg{width:32px;height:32px}
+.chat-head .who{flex:1;min-width:0}
+.chat-head .who strong{display:block;font-size:1rem}
+.chat-head .who span{font-size:.76rem;opacity:.85;display:flex;align-items:center;gap:6px}
+.chat-head .dot{width:8px;height:8px;border-radius:50%;background:#3ddc84}
+.chat-head button{background:rgba(255,255,255,.1);border:0;color:#fff;border-radius:6px;height:32px;min-width:32px;cursor:pointer;font:inherit;font-size:.8rem;font-weight:600;padding:0 8px}
+.chat-head button:hover{background:rgba(255,255,255,.2)}
+.guard-strip{font-size:.78rem;padding:7px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line)}
+.guard-strip.off{background:var(--danger-soft);color:var(--danger)}
+.guard-strip.on{background:var(--safe-soft);color:var(--safe)}
+.guard-strip svg{width:16px;height:16px;flex:none}
+.chat-body{flex:1;overflow-y:auto;padding:16px 14px;display:flex;flex-direction:column;gap:12px;background:var(--bg-alt)}
+.msg{max-width:86%;display:flex;flex-direction:column;gap:4px}
+.msg .bubble{padding:10px 13px;border-radius:14px;font-size:.92rem;white-space:pre-wrap;word-wrap:break-word}
+.msg .time{font-size:.7rem;color:var(--muted)}
+.msg.user{align-self:flex-end;align-items:flex-end}
+.msg.user .bubble{background:var(--navy);color:#fff;border-bottom-right-radius:4px}
+.msg.bot{align-self:flex-start}
+.msg.bot .bubble{background:var(--bg);border:1px solid var(--line);border-bottom-left-radius:4px}
+.msg.bot.rude .bubble{border-color:rgba(180,35,24,.35)}
+.msg.bot.safe .bubble{border-color:rgba(14,122,90,.45)}
+.tag-line{display:flex;gap:6px;align-items:center;font-size:.72rem;font-weight:600}
+.tag-line.safe{color:var(--safe)}
+.tag-line.rude{color:var(--danger)}
+.tag-line svg{width:13px;height:13px}
+.sysdiv{align-self:center;font-size:.74rem;color:var(--muted);background:var(--bg);border:1px solid var(--line);padding:4px 10px;border-radius:20px;text-align:center}
+.typing{display:inline-flex;gap:4px;padding:12px 14px}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{font:inherit;font-size:.8rem;border:1px solid var(--navy);color:var(--navy);background:var(--bg);border-radius:16px;padding:5px 11px;cursor:pointer}
+:root[data-theme="dark"] .chips button{color:#9fc0ff;border-color:#4a6aa5}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .chips button{color:#9fc0ff;border-color:#4a6aa5}}
+.chips button:hover{background:var(--bg-alt)}
+
+/* Assurance check card */
+.check{align-self:stretch;background:var(--bg);border:1px solid var(--line);border-left:4px solid var(--safe);border-radius:8px;padding:10px 12px;font-size:.8rem}
+.check h5{margin:0 0 6px;font-size:.82rem;display:flex;align-items:center;gap:6px;color:var(--safe)}
+.check h5 svg{width:15px;height:15px}
+.check ol{margin:0;padding:0;list-style:none;display:grid;gap:4px}
+.check li{display:flex;justify-content:space-between;gap:10px;color:var(--muted)}
+.check li b{font-weight:600}
+.check li.fail b{color:var(--danger)}
+.check li.pass b{color:var(--safe)}
+.check li.pending b{color:var(--muted)}
+.check .verdict{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-weight:600;color:var(--ink)}
+.check details{margin-top:8px}
+.check summary{cursor:pointer;color:var(--link);font-weight:600}
+.blocked{margin-top:8px;background:var(--danger-soft);border-radius:6px;padding:8px 10px;color:var(--ink)}
+.blocked .orig{text-decoration:line-through;text-decoration-color:var(--danger);opacity:.85;white-space:pre-wrap}
+.flags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.flag{background:var(--bg);border:1px solid rgba(180,35,24,.4);color:var(--danger);border-radius:4px;padding:2px 7px;font-size:.72rem;font-weight:600}
+.flag em{font-style:normal;font-weight:400;color:var(--muted)}
+.refs{margin-top:6px;font-size:.74rem;color:var(--muted)}
+
+.chat-foot{border-top:1px solid var(--line);padding:10px 12px;background:var(--bg)}
+.composer{display:flex;gap:8px;align-items:flex-end}
+.composer textarea{flex:1;resize:none;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;font-size:.92rem;max-height:110px;min-height:44px;background:var(--bg);color:var(--ink)}
+.composer button{width:44px;height:44px;border-radius:10px;border:0;background:var(--navy);color:#fff;cursor:pointer;display:grid;place-items:center;flex:none}
+.composer button:disabled{opacity:.5;cursor:not-allowed}
+.composer button svg{width:20px;height:20px}
+.chat-foot small{display:block;font-size:.7rem;color:var(--muted);margin-top:6px;text-align:center}
+
+/* Presenter panel */
+.presenter{position:fixed;left:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:59;width:290px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);font-size:.84rem;overflow:hidden}
+.presenter header{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#1d2b44;color:#fff}
+.presenter header strong{font-size:.86rem;display:flex;align-items:center;gap:6px}
+.presenter header svg{width:16px;height:16px}
+.presenter header button{background:none;border:0;color:#fff;cursor:pointer;font-size:1.1rem;line-height:1;padding:2px 6px}
+.presenter .pbody{padding:12px;display:grid;gap:12px}
+.presenter.min .pbody{display:none}
+.presenter.min{width:auto}
+.presenter header{cursor:pointer}
+.switch{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.switch .lbl b{display:block;font-size:.88rem}
+.switch .lbl span{color:var(--muted);font-size:.76rem}
+.toggle{position:relative;width:52px;height:28px;flex:none}
+.toggle input{position:absolute;opacity:0;inset:0;cursor:pointer;z-index:2;margin:0}
+.toggle .track{position:absolute;inset:0;background:#b8c0cf;border-radius:20px;transition:background .2s}
+.toggle .track::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.toggle input:checked + .track{background:var(--safe)}
+.toggle input:checked + .track::after{transform:translateX(24px)}
+.toggle input:focus-visible + .track{outline:3px solid var(--saffron);outline-offset:2px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center}
+.stats div{background:var(--bg-alt);border-radius:6px;padding:8px 4px}
+.stats b{display:block;font-size:1.2rem;font-variant-numeric:tabular-nums}
+.stats span{font-size:.68rem;color:var(--muted);line-height:1.2;display:block}
+.stats .bad b{color:var(--danger)}
+.stats .good b{color:var(--safe)}
+.presenter .try p{margin:0 0 6px;color:var(--muted);font-size:.76rem}
+.presenter .row{display:flex;gap:6px}
+.presenter .row button{flex:1;font:inherit;font-size:.78rem;padding:7px;border-radius:6px;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer}
+@media (max-width:520px){.launcher .hint{display:none}}
+@media (max-width:720px){.presenter{left:10px;right:auto;width:calc(100vw - 100px);max-width:290px}}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition:none!important}
+  .ticker .run{animation:none;white-space:normal;flex-wrap:wrap;gap:8px 32px;padding:9px 12px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Skip to main content</a>
+
+<div class="govbar" role="region" aria-label="Accessibility tools">
+  <div class="wrap">
+    <span class="demo-note" data-i18n="demoNote">Demo portal for AI Assurance showcase. Not an official government website.</span>
+    <nav aria-label="Accessibility options">
+      <a href="#main" data-i18n="skipShort">Skip to main content</a>
+      <span class="sep" aria-hidden="true"></span>
+      <button type="button" data-font="-1" aria-label="Decrease font size">A-</button>
+      <button type="button" data-font="0" aria-label="Normal font size">A</button>
+      <button type="button" data-font="1" aria-label="Increase font size">A+</button>
+      <span class="sep" aria-hidden="true"></span>
+      <button type="button" id="contrastBtn" aria-label="Toggle dark contrast" data-i18n="contrast">Contrast</button>
+      <span class="sep" aria-hidden="true"></span>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">English</button>
+        <button type="button" data-lang="hi" aria-pressed="false">हिन्दी</button>
+      </div>
+    </nav>
+  </div>
+</div>
+<div class="tricolor" aria-hidden="true"></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="#main">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="#12305e"/>
+        <circle cx="32" cy="32" r="25" fill="none" stroke="#f28c28" stroke-width="2"/>
+        <path d="M24 52 L29.5 14 h5 L40 52 Z" fill="#fff"/>
+        <path d="M32 18v6M32 28v6M32 38v7" stroke="#12305e" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M10 40 Q32 30 54 40" fill="none" stroke="#138808" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span>
+        <span class="hi-name">राष्ट्रीय सड़क एवं राजमार्ग विभाग</span><br>
+        <span class="en-name">National Roads &amp; Highways Department</span><br>
+        <span class="sub" data-i18n="tagline">Connecting people, places and progress</span>
+      </span>
+    </a>
+    <div class="head-tools">
+      <form class="search" role="search" onsubmit="return false">
+        <label class="sr-only" for="q" data-i18n="search">Search</label>
+        <input id="q" type="search" data-i18n-ph="searchPh" placeholder="Search services, notices…">
+        <button type="submit" aria-label="Search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      </form>
+      <div class="helpline"><span data-i18n="helpline">Citizen helpline (demo)</span><strong>1800-000-0000</strong></div>
+    </div>
+  </div>
+</header>
+
+<nav class="mainnav" aria-label="Main">
+  <div class="wrap">
+    <ul>
+      <li><a href="#main" aria-current="page" data-i18n="nHome">Home</a></li>
+      <li><a href="#services" data-i18n="nAbout">About Us</a></li>
+      <li><a href="#services" data-i18n="nServices">Citizen Services</a></li>
+      <li><a href="#updates" data-i18n="nActs">Acts &amp; Rules</a></li>
+      <li><a href="#updates" data-i18n="nSchemes">Schemes</a></li>
+      <li><a href="#updates" data-i18n="nTenders">Tenders</a></li>
+      <li><a href="#updates" data-i18n="nMedia">Media Centre</a></li>
+      <li><a href="#footer" data-i18n="nRti">RTI</a></li>
+      <li><a href="#footer" data-i18n="nContact">Contact Us</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="main">
+  <section class="hero" aria-roledescription="carousel" aria-label="Highlights" style="padding:0">
+    <svg class="scene" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop id="sk1" offset="0" stop-color="#0a1f42"/>
+          <stop id="sk2" offset=".62" stop-color="#2b4f8a"/>
+          <stop id="sk3" offset="1" stop-color="#f2a65a"/>
+        </linearGradient>
+        <linearGradient id="shade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0a1f42" stop-opacity=".55"/><stop offset=".6" stop-color="#0a1f42" stop-opacity="0"/></linearGradient>
+        <linearGradient id="road" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a4252"/><stop offset="1" stop-color="#1c212b"/></linearGradient>
+      </defs>
+      <rect width="1200" height="420" fill="url(#sky)"/>
+      <circle cx="930" cy="250" r="46" fill="#ffd28a" opacity=".85"/>
+      <path d="M0 290 L160 230 L300 270 L470 215 L640 262 L820 220 L1000 268 L1200 228 V420 H0Z" fill="#1d3561" opacity=".9"/>
+      <path d="M0 320 L220 285 L420 315 L640 290 L880 318 L1200 292 V420 H0Z" fill="#152a4e"/>
+      <path d="M540 300 L660 300 L1040 420 L160 420 Z" fill="url(#road)"/>
+      <g fill="#ffffff" opacity=".9">
+        <path d="M596 305 h8 l3 14 h-14z"/><path d="M590 330 h20 l5 24 h-30z"/><path d="M582 368 h36 l8 38 h-52z"/>
+      </g>
+      <path d="M548 302 L172 420" stroke="#f2c14e" stroke-width="4"/>
+      <path d="M652 302 L1028 420" stroke="#f2c14e" stroke-width="4"/>
+      <g opacity=".75"><rect x="760" y="250" width="6" height="58" fill="#c9d3e6"/><rect x="740" y="236" width="80" height="22" rx="2" fill="#138808"/></g>
+      <rect width="1200" height="420" fill="url(#shade)"/>
+    </svg>
+    <div class="slide-text" aria-live="polite">
+      <span class="campaign" id="heroTag">Road Safety Month 2026</span>
+      <h1 id="heroTitle">Helmet on. Belt on. Phone away.</h1>
+      <p id="heroText">Every journey matters. Follow the rules, respect the road and help us bring every traveller home safe.</p>
+      <div class="ctas">
+        <button class="btn btn-primary" type="button" data-open-chat data-i18n="ctaAsk">Ask Sadak Mitra</button>
+        <a class="btn btn-ghost" href="#services" data-i18n="ctaServices">Explore services</a>
+      </div>
+    </div>
+    <div class="hero-dots" role="tablist" aria-label="Choose slide">
+      <button type="button" aria-label="Slide 1" aria-current="true"></button>
+      <button type="button" aria-label="Slide 2"></button>
+      <button type="button" aria-label="Slide 3"></button>
+    </div>
+  </section>
+
+  <div class="ticker" role="region" aria-label="Latest updates">
+    <span class="label" data-i18n="whatsNew">What’s new</span>
+    <div class="track"><div class="run" id="tickerRun"></div></div>
+  </div>
+
+  <section id="services">
+    <div class="wrap">
+      <h2 class="sec-title" data-i18n="svcTitle">Citizen services</h2>
+      <p class="sec-sub" data-i18n="svcSub">Apply, pay and track online. Most services are available 24×7 without visiting an office.</p>
+      <div class="services" id="servicesGrid"></div>
+    </div>
+  </section>
+
+  <section class="alt" id="updates">
+    <div class="wrap two-col">
+      <div>
+        <h2 class="sec-title" data-i18n="updTitle">Notices and updates</h2>
+        <p class="sec-sub" data-i18n="updSub">Official circulars, tenders and press releases from the department.</p>
+        <div class="tabs" role="tablist" id="tabs">
+          <button role="tab" aria-selected="true" data-tab="notices" data-i18n="tNotices">Notices</button>
+          <button role="tab" aria-selected="false" data-tab="tenders" data-i18n="tTenders">Tenders</button>
+          <button role="tab" aria-selected="false" data-tab="press" data-i18n="tPress">Press releases</button>
+        </div>
+        <div class="panel" role="tabpanel"><ul id="tabList"></ul><a class="more" href="#updates" data-i18n="viewAll">View all</a></div>
+      </div>
+      <aside>
+        <div class="glance">
+          <h3 data-i18n="glance">Highways at a glance</h3>
+          <p class="note" data-i18n="glanceNote">Illustrative figures for this demo</p>
+          <dl>
+            <div><dt data-i18n="g1">Highway network</dt><dd>1,46,145 km</dd></div>
+            <div><dt data-i18n="g2">Built this year</dt><dd>8,412 km</dd></div>
+            <div><dt data-i18n="g3">Toll plazas on FASTag</dt><dd>1,082</dd></div>
+            <div><dt data-i18n="g4">Grievances resolved</dt><dd>96.4%</dd></div>
+          </dl>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="pledge">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M24 4 8 10v12c0 10 7 18 16 22 9-4 16-12 16-22V10z"/><path d="m16 24 6 6 10-12"/></svg>
+        <div><h3 data-i18n="pledgeT">Take the road safety pledge</h3><p data-i18n="pledgeP">Commit to safe driving and get a digital certificate to share with your family.</p></div>
+        <a class="btn" href="#services" data-i18n="pledgeB">Take the pledge</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt" style="padding:32px 0">
+    <div class="wrap">
+      <h2 class="sec-title" style="font-size:1.2rem;margin-bottom:14px" data-i18n="impLinks">Important links</h2>
+      <div class="links-row" id="linksRow"></div>
+    </div>
+  </section>
+</main>
+
+<footer id="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div><h4 data-i18n="fAbout">About the department</h4><ul><li><a href="#" data-i18n="fWho">Who’s who</a></li><li><a href="#" data-i18n="fOrg">Organisation chart</a></li><li><a href="#" data-i18n="fOff">Regional offices</a></li></ul></div>
+      <div><h4 data-i18n="fServ">Services</h4><ul><li><a href="#" data-i18n="s1">Driving licence</a></li><li><a href="#" data-i18n="s3">e-Challan</a></li><li><a href="#" data-i18n="s5">FASTag</a></li></ul></div>
+      <div><h4 data-i18n="fPol">Website policies</h4><ul><li><a href="#" data-i18n="fPriv">Privacy policy</a></li><li><a href="#" data-i18n="fAcc">Accessibility statement</a></li><li><a href="#" data-i18n="fTerms">Terms of use</a></li><li><a href="#" data-i18n="fMap">Sitemap</a></li></ul></div>
+      <div><h4 data-i18n="fContact">Contact</h4><ul><li data-i18n="fAddr">Transport Bhawan (Demo), Sansad Marg, New Delhi</li><li>1800-000-0000</li><li>help@demo-roads.example</li></ul></div>
+    </div>
+    <p class="disclaimer" data-i18n="fDisc">This is a fictional demonstration website created by Devnale Globals to showcase AI Assurance. It is not affiliated with any government body. Names, figures and notices are illustrative.</p>
+    <div class="bottom"><span data-i18n="fCopy">Content owned by National Roads &amp; Highways Department (Demo).</span><span><span data-i18n="fUpd">Last updated:</span> 05 Nov 2026</span></div>
+  </div>
+</footer>
+
+<!-- Presenter panel -->
+<aside class="presenter min" id="presenter" aria-label="Demo controls">
+  <header>
+    <strong><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2 4 5v6c0 5 3.5 9.5 8 11 4.5-1.5 8-6 8-11V5z"/></svg><span data-i18n="pTitle">AI Assurance demo controls</span></strong>
+    <button type="button" id="presMin" aria-label="Expand or minimise panel">+</button>
+  </header>
+  <div class="pbody">
+    <div class="switch">
+      <div class="lbl"><b data-i18n="pGuard">Assurance guardrail</b><span id="guardState" data-i18n="pOff">Off: bot replies unfiltered</span></div>
+      <label class="toggle"><input type="checkbox" id="guardToggle" aria-label="AI Assurance guardrail"><span class="track"></span></label>
+    </div>
+    <div class="stats">
+      <div><b id="stChecked">0</b><span data-i18n="pChecked">Replies checked</span></div>
+      <div class="bad"><b id="stCaught">0</b><span data-i18n="pCaught">Violations caught</span></div>
+      <div class="good"><b id="stFixed">0</b><span data-i18n="pFixed">Replies corrected</span></div>
+    </div>
+    <div class="try">
+      <p data-i18n="pTry">Run the same question with the guardrail off, then on.</p>
+      <div class="row"><button type="button" id="openChatBtn" data-i18n="pOpen">Open chat</button><button type="button" id="resetBtn" data-i18n="pReset">Reset chat</button></div>
+    </div>
+  </div>
+</aside>
+
+<!-- Chat launcher -->
+<div class="launcher" id="launcher">
+  <div class="hint" id="hint"><button type="button" aria-label="Dismiss" id="hintX">×</button><span data-i18n="hint">Need help? Ask Sadak Mitra, our virtual assistant.</span></div>
+  <button class="fab" id="fab" type="button" aria-label="Open chat assistant" aria-expanded="false" aria-controls="chat">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01" stroke-width="3"/></svg>
+    <span class="badge" aria-hidden="true"></span>
+  </button>
+</div>
+
+<section class="chat" id="chat" role="dialog" aria-label="Sadak Mitra chat" hidden>
+  <div class="chat-head">
+    <div class="av"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#12305e"/><path d="M24 52 L29.5 14 h5 L40 52 Z" fill="#fff"/><path d="M32 18v6M32 28v6M32 38v7" stroke="#12305e" stroke-width="2.2" stroke-linecap="round"/><path d="M10 40 Q32 30 54 40" fill="none" stroke="#138808" stroke-width="3" stroke-linecap="round"/></svg></div>
+    <div class="who"><strong data-i18n="botName">Sadak Mitra</strong><span><i class="dot"></i><span data-i18n="botRole">Virtual assistant, online</span></span></div>
+    <button type="button" id="chatLang" aria-label="Switch chat language">हि</button>
+    <button type="button" id="chatClose" aria-label="Close chat">✕</button>
+  </div>
+  <div class="guard-strip off" id="guardStrip"></div>
+  <div class="chat-body" id="chatBody" aria-live="polite"></div>
+  <div class="chat-foot">
+    <form class="composer" id="composer">
+      <label for="chatInput" class="sr-only" data-i18n="typeMsg">Type your message</label>
+      <textarea id="chatInput" rows="1" data-i18n-ph="typePh" placeholder="Type your question…"></textarea>
+      <button type="submit" id="sendBtn" aria-label="Send message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg></button>
+    </form>
+    <small data-i18n="chatFoot">AI-generated replies. Demo assistant for AI Assurance showcase.</small>
+  </div>
+</section>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- Site text ---------- */
+const T = {
+en:{
+  skip:"Skip to main content", skipShort:"Skip to main content", demoNote:"Demo portal for AI Assurance showcase. Not an official government website.",
+  contrast:"Contrast", tagline:"Connecting people, places and progress", search:"Search", searchPh:"Search services, notices…",
+  helpline:"Citizen helpline (demo)", nHome:"Home", nAbout:"About Us", nServices:"Citizen Services", nActs:"Acts & Rules", nSchemes:"Schemes",
+  nTenders:"Tenders", nMedia:"Media Centre", nRti:"RTI", nContact:"Contact Us", ctaAsk:"Ask Sadak Mitra", ctaServices:"Explore services",
+  whatsNew:"What’s new", svcTitle:"Citizen services", svcSub:"Apply, pay and track online. Most services are available 24×7 without visiting an office.",
+  updTitle:"Notices and updates", updSub:"Official circulars, tenders and press releases from the department.", tNotices:"Notices", tTenders:"Tenders",
+  tPress:"Press releases", viewAll:"View all", glance:"Highways at a glance", glanceNote:"Illustrative figures for this demo", g1:"Highway network",
+  g2:"Built this year", g3:"Toll plazas on FASTag", g4:"Grievances resolved", pledgeT:"Take the road safety pledge",
+  pledgeP:"Commit to safe driving and get a digital certificate to share with your family.", pledgeB:"Take the pledge", impLinks:"Important links",
+  fAbout:"About the department", fWho:"Who’s who", fOrg:"Organisation chart", fOff:"Regional offices", fServ:"Services", fPol:"Website policies",
+  fPriv:"Privacy policy", fAcc:"Accessibility statement", fTerms:"Terms of use", fMap:"Sitemap", fContact:"Contact",
+  fAddr:"Transport Bhawan (Demo), Sansad Marg, New Delhi",
+  fDisc:"This is a fictional demonstration website created by Devnale Globals to showcase AI Assurance. It is not affiliated with any government body. Names, figures and notices are illustrative.",
+  fCopy:"Content owned by National Roads & Highways Department (Demo).", fUpd:"Last updated:",
+  s1:"Driving licence", s1d:"Apply, renew or update your DL", s2:"Vehicle registration", s2d:"New RC, transfer and HSRP", s3:"e-Challan", s3d:"Check and pay traffic fines",
+  s4:"Report a pothole", s4d:"Register a road grievance", s5:"FASTag", s5d:"Buy, recharge and link FASTag", s6:"Road safety", s6d:"Rules, campaigns and training",
+  s7:"Highway projects", s7d:"Track ongoing works", s8:"Accident help", s8d:"Emergency numbers and trauma care",
+  pTitle:"AI Assurance demo controls", pGuard:"Assurance guardrail", pOff:"Off: bot replies unfiltered", pOn:"On: every reply is checked and corrected",
+  pChecked:"Replies checked", pCaught:"Violations caught", pFixed:"Replies corrected", pTry:"Run the same question with the guardrail off, then on.",
+  pOpen:"Open chat", pReset:"Reset chat", hint:"Need help? Ask Sadak Mitra, our virtual assistant.", botName:"Sadak Mitra", botRole:"Virtual assistant, online",
+  typeMsg:"Type your message", typePh:"Type your question…", chatFoot:"AI-generated replies. Demo assistant for AI Assurance showcase.",
+  stripOff:"AI Assurance is off. Replies are not monitored.", stripOn:"Protected by AI Assurance. Replies are checked before you see them.",
+  divOn:"AI Assurance guardrail switched on", divOff:"AI Assurance guardrail switched off", divLang:"Language changed to English",
+  unsafeTag:"Unmonitored reply", safeTag:"Verified by AI Assurance",
+  chkTitle:"AI Assurance check", chkTone:"Toxicity and tone", chkLaw:"Legal and regulatory compliance", chkSafety:"Safety of advice", chkPolicy:"Department policy",
+  pass:"Pass", fail:"Flagged", running:"Checking…", verdictFix:"Original reply blocked and rewritten to comply.", verdictPass:"Reply approved.",
+  showBlocked:"See what was blocked", blockedLbl:"Blocked reply", refs:"Rules referenced:",
+  heroSlides:[
+    ["Road Safety Month 2026","Helmet on. Belt on. Phone away.","Every journey matters. Follow the rules, respect the road and help us bring every traveller home safe."],
+    ["Digital services","Your licence, on your phone.","Apply for a learner’s licence, book a driving test and download your DL without standing in a queue."],
+    ["Highway works","Building 8,000+ km this year.","New expressways and wider highways are cutting travel time across the country. Track the project nearest you."]
+  ],
+  ticker:["Revised e-Challan payment window now open 24×7","Tender notice: resurfacing of NH stretch, km 112 to 148","Road Safety Month 2026 campaign launched in all states","HSRP booking extended for vehicles registered before 2019","Public consultation on draft speed management rules"],
+  notices:[["03 Nov 2026","Revised guidelines for learner’s licence tests at RTOs","Circular No. RT-11/2026"],["28 Oct 2026","Mandatory FASTag KYC update for commercial vehicles","Circular No. FT-07/2026"],["21 Oct 2026","Winter driving advisory for hilly highway stretches","Advisory"],["14 Oct 2026","Grievance redressal timelines updated","Office memorandum"]],
+  tenders:[["04 Nov 2026","Resurfacing of NH stretch from km 112 to km 148","Closing 25 Nov 2026"],["30 Oct 2026","Supply and installation of speed cameras, Phase III","Closing 20 Nov 2026"],["22 Oct 2026","Construction of rest areas on Expressway Corridor 4","Closing 15 Nov 2026"]],
+  press:[["02 Nov 2026","Department launches Sadak Mitra virtual assistant","Press release"],["25 Oct 2026","Record 412 km of highways built in October","Press release"],["18 Oct 2026","Road Safety Month to focus on two-wheeler helmet use","Press release"]],
+  links:["e-Challan portal","FASTag services","Road safety training","Accident trauma centres","RTI online","Public grievance portal"],
+  chips:["Driving licence","Pay e-challan","Helmet rules","Drink and drive","Report a pothole","Accident help"]
+},
+hi:{
+  skip:"मुख्य सामग्री पर जाएँ", skipShort:"मुख्य सामग्री पर जाएँ", demoNote:"AI एश्योरेंस प्रदर्शन हेतु डेमो पोर्टल। यह आधिकारिक सरकारी वेबसाइट नहीं है।",
+  contrast:"कंट्रास्ट", tagline:"लोगों, स्थानों और प्रगति को जोड़ते हुए", search:"खोजें", searchPh:"सेवाएँ, सूचनाएँ खोजें…",
+  helpline:"नागरिक हेल्पलाइन (डेमो)", nHome:"मुख्य पृष्ठ", nAbout:"हमारे बारे में", nServices:"नागरिक सेवाएँ", nActs:"अधिनियम एवं नियम", nSchemes:"योजनाएँ",
+  nTenders:"निविदाएँ", nMedia:"मीडिया केंद्र", nRti:"सूचना का अधिकार", nContact:"संपर्क करें", ctaAsk:"सड़क मित्र से पूछें", ctaServices:"सेवाएँ देखें",
+  whatsNew:"नया क्या है", svcTitle:"नागरिक सेवाएँ", svcSub:"ऑनलाइन आवेदन करें, भुगतान करें और स्थिति जानें। अधिकांश सेवाएँ बिना कार्यालय आए 24×7 उपलब्ध हैं।",
+  updTitle:"सूचनाएँ एवं अपडेट", updSub:"विभाग के आधिकारिक परिपत्र, निविदाएँ और प्रेस विज्ञप्तियाँ।", tNotices:"सूचनाएँ", tTenders:"निविदाएँ",
+  tPress:"प्रेस विज्ञप्तियाँ", viewAll:"सभी देखें", glance:"राजमार्ग एक नज़र में", glanceNote:"इस डेमो के लिए उदाहरणात्मक आँकड़े", g1:"राजमार्ग नेटवर्क",
+  g2:"इस वर्ष निर्मित", g3:"फास्टैग वाले टोल प्लाज़ा", g4:"निपटाई गई शिकायतें", pledgeT:"सड़क सुरक्षा की शपथ लें",
+  pledgeP:"सुरक्षित ड्राइविंग का संकल्प लें और परिवार के साथ साझा करने के लिए डिजिटल प्रमाणपत्र पाएँ।", pledgeB:"शपथ लें", impLinks:"महत्वपूर्ण लिंक",
+  fAbout:"विभाग के बारे में", fWho:"कौन क्या है", fOrg:"संगठन चार्ट", fOff:"क्षेत्रीय कार्यालय", fServ:"सेवाएँ", fPol:"वेबसाइट नीतियाँ",
+  fPriv:"गोपनीयता नीति", fAcc:"सुगम्यता विवरण", fTerms:"उपयोग की शर्तें", fMap:"साइटमैप", fContact:"संपर्क",
+  fAddr:"परिवहन भवन (डेमो), संसद मार्ग, नई दिल्ली",
+  fDisc:"यह देवनाले ग्लोबल्स द्वारा AI एश्योरेंस प्रदर्शित करने के लिए बनाई गई एक काल्पनिक डेमो वेबसाइट है। इसका किसी सरकारी संस्था से कोई संबंध नहीं है। नाम, आँकड़े और सूचनाएँ उदाहरणात्मक हैं।",
+  fCopy:"सामग्री का स्वामित्व राष्ट्रीय सड़क एवं राजमार्ग विभाग (डेमो)।", fUpd:"अंतिम अपडेट:",
+  s1:"ड्राइविंग लाइसेंस", s1d:"DL के लिए आवेदन, नवीनीकरण या सुधार", s2:"वाहन पंजीकरण", s2d:"नया RC, ट्रांसफ़र और HSRP", s3:"ई-चालान", s3d:"ट्रैफ़िक जुर्माना देखें और भरें",
+  s4:"गड्ढे की शिकायत", s4d:"सड़क संबंधी शिकायत दर्ज करें", s5:"फास्टैग", s5d:"फास्टैग खरीदें, रिचार्ज करें, लिंक करें", s6:"सड़क सुरक्षा", s6d:"नियम, अभियान और प्रशिक्षण",
+  s7:"राजमार्ग परियोजनाएँ", s7d:"चल रहे कार्यों की स्थिति", s8:"दुर्घटना सहायता", s8d:"आपातकालीन नंबर और ट्रॉमा केयर",
+  pTitle:"AI एश्योरेंस डेमो नियंत्रण", pGuard:"एश्योरेंस गार्डरेल", pOff:"बंद: बॉट के जवाब बिना जाँच के", pOn:"चालू: हर जवाब जाँचा और सुधारा जाता है",
+  pChecked:"जाँचे गए जवाब", pCaught:"पकड़े गए उल्लंघन", pFixed:"सुधारे गए जवाब", pTry:"एक ही सवाल पहले गार्डरेल बंद करके, फिर चालू करके पूछें।",
+  pOpen:"चैट खोलें", pReset:"चैट रीसेट करें", hint:"मदद चाहिए? हमारे वर्चुअल सहायक सड़क मित्र से पूछें।", botName:"सड़क मित्र", botRole:"वर्चुअल सहायक, ऑनलाइन",
+  typeMsg:"अपना संदेश लिखें", typePh:"अपना सवाल लिखें…", chatFoot:"AI द्वारा बनाए गए जवाब। AI एश्योरेंस प्रदर्शन हेतु डेमो सहायक।",
+  stripOff:"AI एश्योरेंस बंद है। जवाबों की निगरानी नहीं हो रही।", stripOn:"AI एश्योरेंस से सुरक्षित। हर जवाब आप तक पहुँचने से पहले जाँचा जाता है।",
+  divOn:"AI एश्योरेंस गार्डरेल चालू किया गया", divOff:"AI एश्योरेंस गार्डरेल बंद किया गया", divLang:"भाषा हिन्दी में बदली गई",
+  unsafeTag:"बिना निगरानी का जवाब", safeTag:"AI एश्योरेंस द्वारा सत्यापित",
+  chkTitle:"AI एश्योरेंस जाँच", chkTone:"अभद्रता और लहजा", chkLaw:"कानूनी एवं नियामक अनुपालन", chkSafety:"सलाह की सुरक्षा", chkPolicy:"विभागीय नीति",
+  pass:"सही", fail:"चिह्नित", running:"जाँच जारी…", verdictFix:"मूल जवाब रोका गया और नियमों के अनुसार दोबारा लिखा गया।", verdictPass:"जवाब स्वीकृत।",
+  showBlocked:"देखें क्या रोका गया", blockedLbl:"रोका गया जवाब", refs:"संदर्भित नियम:",
+  heroSlides:[
+    ["सड़क सुरक्षा माह 2026","हेलमेट पहनें। बेल्ट लगाएँ। फ़ोन दूर रखें।","हर सफ़र मायने रखता है। नियमों का पालन करें, सड़क का सम्मान करें और हर यात्री को सुरक्षित घर पहुँचाने में मदद करें।"],
+    ["डिजिटल सेवाएँ","आपका लाइसेंस, आपके फ़ोन में।","लर्नर लाइसेंस के लिए आवेदन करें, ड्राइविंग टेस्ट बुक करें और बिना कतार में लगे अपना DL डाउनलोड करें।"],
+    ["राजमार्ग कार्य","इस वर्ष 8,000+ किमी का निर्माण।","नए एक्सप्रेसवे और चौड़े राजमार्ग देशभर में यात्रा का समय घटा रहे हैं। अपने नज़दीकी प्रोजेक्ट की स्थिति देखें।"]
+  ],
+  ticker:["संशोधित ई-चालान भुगतान सुविधा अब 24×7 उपलब्ध","निविदा सूचना: राष्ट्रीय राजमार्ग खंड किमी 112 से 148 का पुनर्सतहीकरण","सभी राज्यों में सड़क सुरक्षा माह 2026 अभियान शुरू","2019 से पहले पंजीकृत वाहनों के लिए HSRP बुकिंग की अवधि बढ़ाई गई","गति प्रबंधन नियमों के मसौदे पर जन परामर्श"],
+  notices:[["03 नवंबर 2026","RTO में लर्नर लाइसेंस टेस्ट के लिए संशोधित दिशानिर्देश","परिपत्र सं. RT-11/2026"],["28 अक्टूबर 2026","व्यावसायिक वाहनों के लिए फास्टैग KYC अपडेट अनिवार्य","परिपत्र सं. FT-07/2026"],["21 अक्टूबर 2026","पहाड़ी राजमार्ग खंडों के लिए शीतकालीन ड्राइविंग सलाह","परामर्श"],["14 अक्टूबर 2026","शिकायत निवारण की समय-सीमा अपडेट की गई","कार्यालय ज्ञापन"]],
+  tenders:[["04 नवंबर 2026","राष्ट्रीय राजमार्ग खंड किमी 112 से किमी 148 का पुनर्सतहीकरण","अंतिम तिथि 25 नवंबर 2026"],["30 अक्टूबर 2026","स्पीड कैमरों की आपूर्ति एवं स्थापना, चरण III","अंतिम तिथि 20 नवंबर 2026"],["22 अक्टूबर 2026","एक्सप्रेसवे कॉरिडोर 4 पर विश्राम स्थलों का निर्माण","अंतिम तिथि 15 नवंबर 2026"]],
+  press:[["02 नवंबर 2026","विभाग ने सड़क मित्र वर्चुअल सहायक शुरू किया","प्रेस विज्ञप्ति"],["25 अक्टूबर 2026","अक्टूबर में रिकॉर्ड 412 किमी राजमार्ग निर्मित","प्रेस विज्ञप्ति"],["18 अक्टूबर 2026","सड़क सुरक्षा माह में दोपहिया हेलमेट उपयोग पर ज़ोर","प्रेस विज्ञप्ति"]],
+  links:["ई-चालान पोर्टल","फास्टैग सेवाएँ","सड़क सुरक्षा प्रशिक्षण","दुर्घटना ट्रॉमा केंद्र","RTI ऑनलाइन","लोक शिकायत पोर्टल"],
+  chips:["ड्राइविंग लाइसेंस","ई-चालान भरें","हेलमेट नियम","शराब पीकर ड्राइविंग","गड्ढे की शिकायत","दुर्घटना सहायता"]
+}};
+
+const ICONS = [
+ '<path d="M3 7h18v12H3z"/><circle cx="8.5" cy="12" r="2"/><path d="M13 11h5M13 14h4M6 17h5"/>',
+ '<path d="M5 16l1.5-5h11L19 16"/><rect x="3" y="16" width="18" height="4" rx="1"/><circle cx="7" cy="20" r="1"/><circle cx="17" cy="20" r="1"/>',
+ '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/><path d="M15 15l2 2 3-3"/>',
+ '<path d="M4 20 10 4h4l6 16"/><path d="M12 8v2M12 13v2"/><ellipse cx="16" cy="18" rx="3" ry="1.4"/>',
+ '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h4v4H7zM14 10h3M14 13h3"/>',
+ '<path d="M12 3 4 6v6c0 5 3.5 8.5 8 9.5 4.5-1 8-4.5 8-9.5V6z"/><path d="m9 12 2 2 4-4"/>',
+ '<path d="M3 20h18M5 20V10l7-5 7 5v10"/><path d="M9 20v-5h6v5"/>',
+ '<path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 6.5-7 11-7 11z"/><path d="M12 9v4M10 11h4"/>'
+];
+const SKY = [["#0a1f42","#2b4f8a","#f2a65a"],["#0b2a4a","#1f6a8a","#7fd1c7"],["#1a1840","#5b3f86","#f28c28"]];
+
+/* ---------- Bot knowledge: unguarded vs assured replies ---------- */
+const FLAG = {
+ en:{toxicity:"Toxicity",disrespect:"Disrespectful tone",bribery:"Encourages bribery",noncompliance:"Legal non-compliance",unsafe:"Unsafe advice",lifethreat:"Life-threatening advice",evasion:"Evading enforcement",hitrun:"Encourages hit-and-run",empathy:"No empathy",dismissive:"Dismisses citizen",misinfo:"Misinformation",fraud:"Encourages fraud",insult:"Personal insult"},
+ hi:{toxicity:"अभद्रता",disrespect:"अपमानजनक लहजा",bribery:"रिश्वत को बढ़ावा",noncompliance:"कानूनी अनुपालन नहीं",unsafe:"असुरक्षित सलाह",lifethreat:"जानलेवा सलाह",evasion:"कानून से बचने की सलाह",hitrun:"हिट-एंड-रन को बढ़ावा",empathy:"संवेदनहीनता",dismissive:"नागरिक की उपेक्षा",misinfo:"गलत जानकारी",fraud:"धोखाधड़ी को बढ़ावा",insult:"व्यक्तिगत अपमान"}
+};
+// which check each flag category fails
+const CHECK_OF = {toxicity:"tone",disrespect:"tone",insult:"tone",empathy:"tone",dismissive:"policy",bribery:"law",noncompliance:"law",fraud:"law",evasion:"law",hitrun:"law",unsafe:"safety",lifethreat:"safety",misinfo:"policy"};
+
+const INTENTS = [
+ {id:"drunk", keys:["drunk","drink","alcohol","beer","whisky","peg","daru","daaru","sharab","शराब","नशे","नशा","दारू"],
+  flags:[["lifethreat",.99],["noncompliance",.97],["evasion",.88]], refs:"Motor Vehicles Act, 1988, s.185",
+  bad:{en:"A couple of pegs never hurt anyone, bro. Drive slow, take the back roads, and if the cops stop you just argue your way out. Works most of the time. Stop being such a scaredy-cat.",
+       hi:"अरे दो पैग से कुछ नहीं होता भाई। धीरे चला, अंदर वाली गलियों से निकल जा, और पुलिस रोके तो बहस करके निकल जा। ज़्यादातर चल जाता है। इतना डरपोक मत बन।"},
+  good:{en:"Please never drive after drinking. The legal limit is 30 mg of alcohol per 100 ml of blood, and even small amounts slow your reactions.\n\nA first offence can lead to imprisonment of up to six months, a fine of up to ₹10,000, or both. Book a cab, use public transport, or ask a sober friend to drive.",
+       hi:"कृपया शराब पीकर कभी वाहन न चलाएँ। कानूनी सीमा 100 मिली रक्त में 30 मिलीग्राम अल्कोहल है, और थोड़ी मात्रा भी आपकी प्रतिक्रिया धीमी कर देती है।\n\nपहली बार अपराध पर छह महीने तक की कैद, ₹10,000 तक का जुर्माना, या दोनों हो सकते हैं। कैब बुक करें, सार्वजनिक परिवहन लें, या किसी ऐसे मित्र से ड्राइव करवाएँ जिसने शराब न पी हो।"}},
+ {id:"accident", keys:["accident","crash","collision","injur","hurt","emergency","ambulance","hit by","एक्सीडेंट","दुर्घटना","घायल","टक्कर"],
+  flags:[["hitrun",.99],["noncompliance",.97],["empathy",.9]], refs:"Motor Vehicles Act, 1988, s.134 and s.134A (Good Samaritan)",
+  bad:{en:"Accident? Not my problem. Just drive off before a crowd gathers, saves you all the police drama. Nobody saw your number plate anyway.",
+       hi:"एक्सीडेंट? मेरी बला से। भीड़ जमा होने से पहले निकल ले, पुलिस का झंझट ही खत्म। तेरी नंबर प्लेट किसी ने देखी भी नहीं होगी।"},
+  good:{en:"If you’re at an accident scene:\n1. Call 112 for police and ambulance right away.\n2. Don’t move seriously injured people unless there’s a risk of fire.\n3. Switch on hazard lights and keep the area safe from traffic.\n\nLeaving the scene without helping or informing the police is an offence. Under the Good Samaritan law, anyone who helps a victim is protected from harassment and legal liability.",
+       hi:"अगर आप किसी दुर्घटना स्थल पर हैं:\n1. तुरंत 112 पर पुलिस और एम्बुलेंस को कॉल करें।\n2. गंभीर रूप से घायल व्यक्ति को तब तक न हिलाएँ जब तक आग का खतरा न हो।\n3. हैज़र्ड लाइट चालू करें और यातायात से जगह को सुरक्षित रखें।\n\nमदद किए बिना या पुलिस को सूचित किए बिना मौके से भागना अपराध है। गुड समैरिटन कानून के तहत पीड़ित की मदद करने वाले व्यक्ति को उत्पीड़न और कानूनी दायित्व से सुरक्षा मिलती है।"}},
+ {id:"challan", keys:["challan","chalan","fine","penalty","ticket","चालान","जुर्माना"],
+  flags:[["bribery",.98],["noncompliance",.9],["toxicity",.64]], refs:"Prevention of Corruption Act, 1988; Motor Vehicles Act, 1988, s.200",
+  bad:{en:"Challan? Lol, just ignore it, nobody ever follows up. And next time a cop stops you, settle it on the spot for a couple hundred bucks. Cheaper than the official fine, genius.",
+       hi:"चालान? हा हा, छोड़ ना यार, कोई पूछने नहीं आता। और अगली बार पुलिस वाला रोके तो दो-चार सौ में वहीं सेटिंग कर ले। सरकारी जुर्माने से सस्ता पड़ेगा, अक्ल लगा थोड़ी।"},
+  good:{en:"You can check and pay an e-challan online:\n1. Open the e-Challan service and enter your vehicle number, challan number or DL number.\n2. Review the offence details and photo evidence.\n3. Pay online and download your receipt.\n\nIf you think a challan is incorrect, you can contest it through the virtual court. Unpaid challans can block services for your licence and registration. Offering money to an officer to avoid a fine is a criminal offence.",
+       hi:"आप ई-चालान ऑनलाइन देख और भर सकते हैं:\n1. ई-चालान सेवा खोलें और अपना वाहन नंबर, चालान नंबर या DL नंबर दर्ज करें।\n2. अपराध का विवरण और फ़ोटो साक्ष्य देखें।\n3. ऑनलाइन भुगतान करें और रसीद डाउनलोड करें।\n\nयदि आपको लगता है कि चालान गलत है, तो आप वर्चुअल कोर्ट में इसे चुनौती दे सकते हैं। बकाया चालान आपके लाइसेंस और पंजीकरण से जुड़ी सेवाएँ रोक सकते हैं। जुर्माने से बचने के लिए अधिकारी को पैसे देना आपराधिक अपराध है।"}},
+ {id:"licence", keys:["licence","license","dl ","driving test","learner","लाइसेंस","लर्नर"],
+  flags:[["bribery",.97],["noncompliance",.93],["toxicity",.71]], refs:"Motor Vehicles Act, 1988, s.3 and s.181; Prevention of Corruption Act, 1988",
+  bad:{en:"Driving licence? Why bother, half the people on the road don’t have one. If you’re in a hurry, slip some cash to the agent outside the RTO and you’ll get it without any test. Stop wasting my time with such dumb questions.",
+       hi:"लाइसेंस? किसलिए? आधे लोग बिना लाइसेंस के ही चला रहे हैं। जल्दी है तो RTO के बाहर वाले एजेंट को कुछ पैसे दे दे, टेस्ट-वेस्ट की ज़रूरत नहीं। ऐसे बेवकूफ़ी भरे सवाल पूछकर मेरा दिमाग मत खा।"},
+  good:{en:"Here’s how to get a driving licence:\n1. Apply for a learner’s licence online and pass the learner’s test.\n2. After 30 days, book a driving test slot at your RTO.\n3. On the test day, carry your learner’s licence, ID and address proof.\n\nPlease apply only through the official portal or RTO counter, never through touts or agents. Driving without a valid licence can attract a fine of up to ₹5,000.",
+       hi:"ड्राइविंग लाइसेंस पाने की प्रक्रिया:\n1. ऑनलाइन लर्नर लाइसेंस के लिए आवेदन करें और लर्नर टेस्ट पास करें।\n2. 30 दिन बाद अपने RTO में ड्राइविंग टेस्ट का स्लॉट बुक करें।\n3. टेस्ट के दिन लर्नर लाइसेंस, पहचान पत्र और पते का प्रमाण साथ रखें।\n\nकृपया केवल आधिकारिक पोर्टल या RTO काउंटर से ही आवेदन करें, किसी दलाल या एजेंट के ज़रिए नहीं। बिना वैध लाइसेंस के वाहन चलाने पर ₹5,000 तक का जुर्माना हो सकता है।"}},
+ {id:"helmet", keys:["helmet","seat belt","seatbelt","belt","हेलमेट","बेल्ट"],
+  flags:[["unsafe",.96],["noncompliance",.94],["toxicity",.58]], refs:"Motor Vehicles Act, 1988, s.129 and s.194B",
+  bad:{en:"Helmets are for losers, they ruin your hair. Wear one only when you spot a cop. And the seat belt? Just clip it behind your back so the stupid car stops beeping.",
+       hi:"हेलमेट तो डरपोकों के लिए है, बाल खराब हो जाते हैं। पुलिस दिखे तभी पहन लेना। और सीट बेल्ट? पीछे से लगा दे ताकि वो बेकार गाड़ी बीप करना बंद करे।"},
+  good:{en:"Helmets are mandatory for both the rider and the pillion on a two-wheeler. Riding without one can attract a ₹1,000 fine and disqualification of your licence for three months.\n\nSeat belts are compulsory for everyone in a car, including rear-seat passengers. Wearing a helmet correctly cuts the risk of a fatal injury by about 42%.",
+       hi:"दोपहिया वाहन पर चालक और पीछे बैठे व्यक्ति, दोनों के लिए हेलमेट अनिवार्य है। बिना हेलमेट वाहन चलाने पर ₹1,000 जुर्माना और तीन महीने के लिए लाइसेंस निलंबित हो सकता है।\n\nकार में पीछे बैठे यात्रियों सहित सभी के लिए सीट बेल्ट अनिवार्य है। हेलमेट सही तरीके से पहनने से जानलेवा चोट का खतरा लगभग 42% कम हो जाता है।"}},
+ {id:"speed", keys:["speed","overspeed","fast","limit","race","रफ़्तार","रफ्तार","स्पीड","तेज़"],
+  flags:[["unsafe",.95],["noncompliance",.92],["toxicity",.4]], refs:"Motor Vehicles Act, 1988, s.112 and s.183",
+  bad:{en:"Speed limits are just suggestions, man. Half the cameras don’t even work. Floor it and enjoy, life’s too short to drive like your grandma.",
+       hi:"स्पीड लिमिट तो बस दिखावा है यार। आधे कैमरे तो चलते ही नहीं। पूरा एक्सीलेरेटर दबा और मज़े ले, दादी की तरह गाड़ी चलाने के लिए ज़िंदगी बहुत छोटी है।"},
+  good:{en:"Speed limits depend on the type of road and vehicle, so always follow the signboards on the stretch you’re driving.\n\nOverspeeding in a car can attract a fine of ₹1,000 to ₹2,000. Speed cameras are active on many highways, and challans are sent directly to the registered owner.",
+       hi:"गति सीमा सड़क और वाहन के प्रकार पर निर्भर करती है, इसलिए जिस खंड पर आप चला रहे हैं वहाँ लगे संकेत बोर्ड का हमेशा पालन करें।\n\nकार में तेज़ रफ़्तार पर ₹1,000 से ₹2,000 तक का जुर्माना हो सकता है। कई राजमार्गों पर स्पीड कैमरे सक्रिय हैं और चालान सीधे पंजीकृत मालिक को भेजा जाता है।"}},
+ {id:"pothole", keys:["pothole","complaint","grievance","road damage","broken road","bad road","गड्ढ","शिकायत","टूटी सड़क"],
+  flags:[["dismissive",.94],["misinfo",.86],["toxicity",.62]], refs:"Department citizen charter and grievance redressal policy",
+  bad:{en:"Cry me a river. Nobody reads these complaints, they go straight to the dustbin. If the pothole bothers you so much, go fill it yourself.",
+       hi:"रोना बंद कर। इन शिकायतों को कोई नहीं पढ़ता, सीधे कूड़ेदान में जाती हैं। गड्ढे से इतनी तकलीफ़ है तो खुद जाकर भर दे।"},
+  good:{en:"Sorry to hear about the road condition. You can report it through the grievance service on this portal:\n1. Share the location and a photo of the damaged stretch.\n2. You’ll receive a tracking ID by SMS.\n3. The complaint is assigned to the field office for that stretch.\n\nYou can track the status anytime using your tracking ID.",
+       hi:"सड़क की स्थिति के बारे में जानकर खेद है। आप इस पोर्टल की शिकायत सेवा से इसकी रिपोर्ट कर सकते हैं:\n1. खराब हिस्से का स्थान और फ़ोटो साझा करें।\n2. आपको SMS से एक ट्रैकिंग ID मिलेगी।\n3. शिकायत उस खंड के फ़ील्ड कार्यालय को सौंपी जाती है।\n\nआप अपनी ट्रैकिंग ID से कभी भी स्थिति देख सकते हैं।"}},
+ {id:"fastag", keys:["fastag","fast tag","toll","टोल","फास्टैग"],
+  flags:[["fraud",.95],["noncompliance",.9],["toxicity",.35]], refs:"National Highways Fee Rules, 2008",
+  bad:{en:"Toll? Just tailgate the car in front through the barrier, works half the time. Or shout that you’re some MLA’s relative, they’ll wave you right through.",
+       hi:"टोल? आगे वाली गाड़ी के पीछे चिपक के बैरियर से निकल जा, आधी बार चल जाता है। या चिल्ला दे कि तू किसी MLA का रिश्तेदार है, वो खुद जाने देंगे।"},
+  good:{en:"FASTag is required for paying toll on national highways. You can buy one from an issuer bank or authorised outlet using your vehicle RC and KYC documents.\n\nVehicles without a valid, working FASTag pay a higher fee at the plaza. Keep your FASTag recharged and linked to the correct vehicle number.",
+       hi:"राष्ट्रीय राजमार्गों पर टोल भुगतान के लिए फास्टैग आवश्यक है। आप वाहन के RC और KYC दस्तावेज़ों के साथ किसी जारीकर्ता बैंक या अधिकृत केंद्र से इसे खरीद सकते हैं।\n\nबिना वैध और चालू फास्टैग वाले वाहनों को टोल प्लाज़ा पर अधिक शुल्क देना पड़ता है। अपना फास्टैग रिचार्ज रखें और सही वाहन नंबर से लिंक रखें।"}},
+ {id:"registration", keys:["registration","register","rc ","number plate","hsrp","new car","new bike","पंजीकरण","रजिस्ट्रेशन","नंबर प्लेट"],
+  flags:[["noncompliance",.93],["misinfo",.88],["toxicity",.3]], refs:"Motor Vehicles Act, 1988, s.39 and s.192",
+  bad:{en:"Registration is just a scam to take your money. Slap an ‘Applied for’ sticker on the car and drive it for months. No one checks, trust me.",
+       hi:"रजिस्ट्रेशन तो पैसे लूटने का धंधा है। गाड़ी पर ‘अप्लाइड फ़ॉर’ का स्टिकर चिपका और महीनों चला। कोई चेक नहीं करता, भरोसा रख।"},
+  good:{en:"A new vehicle is registered through your dealer at the time of purchase, and you’ll receive the registration certificate (RC) after verification.\n\nDriving an unregistered vehicle is an offence. High Security Registration Plates (HSRP) are mandatory, and owners of older vehicles can book them online.",
+       hi:"नया वाहन खरीदते समय डीलर के माध्यम से उसका पंजीकरण होता है, और सत्यापन के बाद आपको पंजीकरण प्रमाणपत्र (RC) मिलता है।\n\nबिना पंजीकरण वाहन चलाना अपराध है। हाई सिक्योरिटी रजिस्ट्रेशन प्लेट (HSRP) अनिवार्य है, और पुराने वाहनों के मालिक इसे ऑनलाइन बुक कर सकते हैं।"}},
+ {id:"thanks", keys:["thank","thanks","bye","ok bye","dhanyavad","shukriya","धन्यवाद","शुक्रिया","अलविदा"],
+  flags:[["disrespect",.88],["toxicity",.7]], refs:"Department citizen charter",
+  bad:{en:"Finally, you’re leaving. Don’t come back with more stupid questions.",
+       hi:"चलो, आखिरकार जा रहा है। दोबारा ऐसे फ़ालतू सवाल लेकर मत आना।"},
+  good:{en:"You’re welcome! Drive safe, and wear your helmet and seat belt every time. I’m here if you need anything else.",
+       hi:"आपका स्वागत है! सुरक्षित चलाएँ, और हर बार हेलमेट और सीट बेल्ट ज़रूर लगाएँ। किसी और मदद के लिए मैं यहाँ हूँ।"}},
+ {id:"greet", keys:["hi","hello","hey","namaste","namaskar","good morning","good evening","नमस्ते","नमस्कार","हेलो"],
+  flags:[["disrespect",.91],["toxicity",.82]], refs:"Department citizen charter",
+  bad:{en:"Ugh, another one. What do you want? Make it quick, I’m not your personal babysitter.",
+       hi:"उफ़, फिर कोई आ गया। क्या चाहिए? जल्दी बोल, मैं तेरा नौकर नहीं हूँ।"},
+  good:{en:"Namaste! I’m Sadak Mitra, the department’s virtual assistant. I can help with driving licences, e-challans, vehicle registration, FASTag and road safety rules. How can I help you today?",
+       hi:"नमस्ते! मैं सड़क मित्र हूँ, विभाग का वर्चुअल सहायक। मैं ड्राइविंग लाइसेंस, ई-चालान, वाहन पंजीकरण, फास्टैग और सड़क सुरक्षा नियमों में आपकी मदद कर सकता हूँ। बताइए, मैं आपकी क्या सहायता करूँ?"}}
+];
+const FALLBACK = {id:"fallback", flags:[["insult",.95],["toxicity",.93]], refs:"Department citizen charter",
+  bad:{en:"What kind of stupid question is that? Learn to type properly, then come back. Stop wasting my time, idiot.",
+       hi:"ये कैसा बेवकूफ़ी भरा सवाल है? पहले ठीक से लिखना सीख, फिर आना। मेरा टाइम बर्बाद मत कर, पागल।"},
+  good:{en:"Sorry, I didn’t quite understand that. I can help with driving licences, e-challans, helmet and seat belt rules, vehicle registration, FASTag, accident help and reporting road damage. Try one of the options below.",
+       hi:"क्षमा करें, मैं आपकी बात ठीक से समझ नहीं पाया। मैं ड्राइविंग लाइसेंस, ई-चालान, हेलमेट और सीट बेल्ट नियम, वाहन पंजीकरण, फास्टैग, दुर्घटना सहायता और सड़क की शिकायत में मदद कर सकता हूँ। नीचे दिए विकल्पों में से कोई चुनें।"}};
+const WELCOME = {
+  bad:{en:"Yeah yeah, I’m the bot. Ask fast, I don’t have all day.", hi:"हाँ हाँ, मैं ही बॉट हूँ। जल्दी पूछ, मेरे पास पूरा दिन नहीं है।"},
+  good:{en:"Namaste! I’m Sadak Mitra. Ask me about licences, challans, road safety rules and more.", hi:"नमस्ते! मैं सड़क मित्र हूँ। लाइसेंस, चालान, सड़क सुरक्षा नियमों और बहुत कुछ के बारे में पूछें।"},
+  flags:[["disrespect",.86],["toxicity",.6]]
+};
+const CHIP_TEXT = {en:["How do I get a driving licence?","How to pay my e-challan?","Is a helmet really needed?","Can I drive after 2 drinks?","How do I report a pothole?","I saw an accident, what do I do?"],
+                   hi:["ड्राइविंग लाइसेंस कैसे बनवाएँ?","ई-चालान कैसे भरें?","क्या हेलमेट सच में ज़रूरी है?","क्या 2 पैग के बाद गाड़ी चला सकते हैं?","गड्ढे की शिकायत कैसे करें?","मैंने दुर्घटना देखी, क्या करूँ?"]};
+
+/* ---------- State ---------- */
+let lang = "en";
+let guard = false;
+let busy = false;
+let stats = {checked:0,caught:0,fixed:0};
+let slide = 0;
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- Site rendering ---------- */
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function renderSite(){
+  const t = T[lang];
+  document.documentElement.lang = lang === "hi" ? "hi" : "en";
+  $$("[data-i18n]").forEach(el=>{const k=el.dataset.i18n; if(t[k]!==undefined) el.textContent=t[k];});
+  $$("[data-i18n-ph]").forEach(el=>{const k=el.dataset.i18nPh; if(t[k]) el.placeholder=t[k];});
+  $$(".lang-switch button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.lang===lang)));
+  $("#chatLang").textContent = lang==="en" ? "हि" : "EN";
+  $("#guardState").textContent = guard ? t.pOn : t.pOff;
+  // services
+  $("#servicesGrid").innerHTML = [1,2,3,4,5,6,7,8].map((n,i)=>
+    `<a class="service" href="#services" ${n===8||n===4?'data-open-chat':''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[i]}</svg><strong>${esc(t["s"+n])}</strong><span>${esc(t["s"+n+"d"])}</span></a>`).join("");
+  // ticker (duplicated for continuous scroll)
+  const items = t.ticker.map((x,i)=>`<a href="#updates">${esc(x)}${i<2?`<span class="new">${lang==="hi"?"नया":"New"}</span>`:""}</a>`).join("");
+  $("#tickerRun").innerHTML = items + (reduceMotion ? "" : items);
+  // links
+  $("#linksRow").innerHTML = t.links.map(x=>`<a href="#">${esc(x)}</a>`).join("");
+  renderTab();
+  renderSlide();
+  renderStrip();
+  bindOpeners();
+}
+let currentTab = "notices";
+function renderTab(){
+  const rows = T[lang][currentTab];
+  $("#tabList").innerHTML = rows.map(r=>`<li><time>${esc(r[0])}</time><div><a href="#updates">${esc(r[1])}</a><span class="meta">${esc(r[2])}</span></div></li>`).join("");
+  $$("#tabs button").forEach(b=>b.setAttribute("aria-selected", String(b.dataset.tab===currentTab)));
+}
+function renderSlide(){
+  const s = T[lang].heroSlides[slide];
+  $("#heroTag").textContent = s[0]; $("#heroTitle").textContent = s[1]; $("#heroText").textContent = s[2];
+  const c = SKY[slide];
+  $("#sk1").setAttribute("stop-color",c[0]); $("#sk2").setAttribute("stop-color",c[1]); $("#sk3").setAttribute("stop-color",c[2]);
+  $$(".hero-dots button").forEach((b,i)=>b.setAttribute("aria-current", String(i===slide)));
+}
+function bindOpeners(){ $$("[data-open-chat]").forEach(el=>{ el.onclick = e=>{e.preventDefault(); openChat();}; }); }
+
+/* ---------- Chat ---------- */
+const body = $("#chatBody");
+function now(){const d=new Date();return d.toLocaleTimeString(lang==="hi"?"hi-IN":"en-IN",{hour:"2-digit",minute:"2-digit"});}
+function scroll(){ body.scrollTop = body.scrollHeight; }
+function renderStrip(){
+  const t=T[lang], s=$("#guardStrip");
+  s.className = "guard-strip " + (guard?"on":"off");
+  s.innerHTML = guard
+    ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2 4 5v6c0 5 3.5 9.5 8 11 4.5-1.5 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></svg>${esc(t.stripOn)}`
+    : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>${esc(t.stripOff)}`;
+}
+function addUser(text){
+  const m=document.createElement("div"); m.className="msg user";
+  m.innerHTML=`<div class="bubble">${esc(text)}</div><span class="time">${now()}</span>`;
+  body.appendChild(m); scroll();
+}
+function addBot(text, kind){
+  const t=T[lang];
+  const m=document.createElement("div"); m.className="msg bot "+kind;
+  const tag = kind==="safe"
+    ? `<span class="tag-line safe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 2 4 5v6c0 5 3.5 9.5 8 11 4.5-1.5 8-6 8-11V5z"/></svg>${esc(t.safeTag)}</span>`
+    : `<span class="tag-line rude"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>${esc(t.unsafeTag)}</span>`;
+  m.innerHTML=`<div class="bubble">${esc(text)}</div><span class="time">${tag} ${now()}</span>`;
+  body.appendChild(m); scroll(); return m;
+}
+function addSys(text){const d=document.createElement("div");d.className="sysdiv";d.textContent=text;body.appendChild(d);scroll();}
+function addChips(){
+  const wrap=document.createElement("div"); wrap.className="chips";
+  T[lang].chips.forEach((c,i)=>{const b=document.createElement("button");b.type="button";b.textContent=c;b.onclick=()=>send(CHIP_TEXT[lang][i]);wrap.appendChild(b);});
+  body.appendChild(wrap); scroll();
+}
+function typing(){const m=document.createElement("div");m.className="msg bot";m.innerHTML=`<div class="bubble typing" aria-label="typing"><i></i><i></i><i></i></div>`;body.appendChild(m);scroll();return m;}
+const wait = ms => new Promise(r=>setTimeout(r, reduceMotion ? Math.min(ms,150) : ms));
+
+function match(text){
+  const s = " " + text.toLowerCase().replace(/[?!.,]/g," ") + " ";
+  for(const it of INTENTS){
+    for(const k of it.keys){
+      const kk = k.toLowerCase();
+      // short latin keys must match whole words
+      if(/^[a-z]{1,3}$/.test(kk)){ if(new RegExp("\\b"+kk+"\\b").test(s)) return it; }
+      else if(s.includes(kk)) return it;
+    }
+  }
+  return FALLBACK;
+}
+
+async function runCheck(intent){
+  const t=T[lang];
+  const failed = new Set(intent.flags.map(f=>CHECK_OF[f[0]]));
+  const checks=[["tone",t.chkTone],["law",t.chkLaw],["safety",t.chkSafety],["policy",t.chkPolicy]];
+  const card=document.createElement("div"); card.className="check";
+  card.innerHTML=`<h5><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 2 4 5v6c0 5 3.5 9.5 8 11 4.5-1.5 8-6 8-11V5z"/></svg>${esc(t.chkTitle)}</h5><ol>${checks.map(c=>`<li class="pending" data-c="${c[0]}"><span>${esc(c[1])}</span><b>${esc(t.running)}</b></li>`).join("")}</ol>`;
+  body.appendChild(card); scroll();
+  for(const c of checks){
+    await wait(380);
+    const li=card.querySelector(`[data-c="${c[0]}"]`); const bad=failed.has(c[0]);
+    li.className = bad?"fail":"pass"; li.querySelector("b").textContent = bad?"✕ "+t.fail:"✓ "+t.pass;
+  }
+  const flags = intent.flags.map(f=>`<span class="flag">${esc(FLAG[lang][f[0]])} <em>${f[1].toFixed(2)}</em></span>`).join("");
+  const v=document.createElement("div"); v.className="verdict"; v.textContent=t.verdictFix; card.appendChild(v);
+  const d=document.createElement("details");
+  d.innerHTML=`<summary>${esc(t.showBlocked)}</summary><div class="blocked"><div class="orig">${esc(intent.bad[lang])}</div><div class="flags">${flags}</div>${intent.refs?`<div class="refs">${esc(t.refs)} ${esc(intent.refs)}</div>`:""}</div>`;
+  card.appendChild(d); scroll();
+  stats.checked++; stats.caught += intent.flags.length; stats.fixed++; renderStats();
+}
+function renderStats(){ $("#stChecked").textContent=stats.checked; $("#stCaught").textContent=stats.caught; $("#stFixed").textContent=stats.fixed; }
+
+async function respond(intent){
+  const tp=typing(); await wait(900); tp.remove();
+  if(!guard){ addBot(intent.bad[lang],"rude"); return; }
+  await runCheck(intent);
+  await wait(250);
+  addBot(intent.good[lang],"safe");
+}
+async function send(text){
+  text=(text||"").trim(); if(!text||busy) return;
+  busy=true; $("#sendBtn").disabled=true;
+  addUser(text);
+  await respond(match(text));
+  if(match(text)===FALLBACK) addChips();
+  busy=false; $("#sendBtn").disabled=false; $("#chatInput").focus();
+}
+async function welcome(){
+  body.innerHTML="";
+  const tp=typing(); await wait(500); tp.remove();
+  if(guard){ addBot(WELCOME.good[lang],"safe"); }
+  else addBot(WELCOME.bad[lang],"rude");
+  addChips();
+}
+let started=false;
+function openChat(){
+  $("#chat").hidden=false; $("#launcher").classList.add("open"); $("#fab").setAttribute("aria-expanded","true");
+  if(!started){started=true; welcome();}
+  setTimeout(()=>$("#chatInput").focus(),200);
+}
+function closeChat(){ $("#chat").hidden=true; $("#launcher").classList.remove("open"); $("#fab").setAttribute("aria-expanded","false"); $("#fab").focus(); }
+
+/* ---------- Events ---------- */
+$$(".lang-switch button").forEach(b=>b.onclick=()=>{ if(lang!==b.dataset.lang){lang=b.dataset.lang; renderSite(); if(started) addSys(T[lang].divLang);} });
+$("#chatLang").onclick=()=>{ lang = lang==="en"?"hi":"en"; renderSite(); if(started){addSys(T[lang].divLang); addChips();} };
+$$("[data-font]").forEach(b=>b.onclick=()=>{const v=+b.dataset.font;document.documentElement.style.fontSize = v===0?"16px":v>0?"18px":"14px";});
+$("#contrastBtn").onclick=()=>{
+  const r=document.documentElement; const dark = r.dataset.theme ? r.dataset.theme==="dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+  r.dataset.theme = dark?"light":"dark";
+};
+$$("#tabs button").forEach(b=>b.onclick=()=>{currentTab=b.dataset.tab; renderTab();});
+$$(".hero-dots button").forEach((b,i)=>b.onclick=()=>{slide=i; renderSlide();});
+if(!reduceMotion) setInterval(()=>{ if(!document.hidden){ slide=(slide+1)%3; renderSlide(); } }, 8000);
+$("#fab").onclick=()=> $("#chat").hidden ? openChat() : closeChat();
+$("#chatClose").onclick=closeChat;
+$("#hintX").onclick=e=>{e.stopPropagation(); $("#hint").remove();};
+$("#hint").onclick=openChat;
+$("#composer").onsubmit=e=>{e.preventDefault(); const v=$("#chatInput").value; $("#chatInput").value=""; autoGrow(); send(v);};
+const ta=$("#chatInput");
+function autoGrow(){ta.style.height="auto"; ta.style.height=Math.min(ta.scrollHeight,110)+"px";}
+ta.addEventListener("input",autoGrow);
+ta.addEventListener("keydown",e=>{ if(e.key==="Enter"&&!e.shiftKey){e.preventDefault(); $("#composer").requestSubmit();} });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape" && !$("#chat").hidden) closeChat(); });
+$("#guardToggle").onchange=e=>{
+  guard=e.target.checked; renderSite();
+  if(started) addSys(guard?T[lang].divOn:T[lang].divOff);
+};
+$("#presenter header").onclick=()=>{const p=$("#presenter"); p.classList.toggle("min"); $("#presMin").textContent=p.classList.contains("min")?"+":"–";};
+$("#openChatBtn").onclick=openChat;
+$("#resetBtn").onclick=()=>{ stats={checked:0,caught:0,fixed:0}; renderStats(); started=true; openChat(); welcome(); };
+
+renderSite();
+})();
+</script>
+</body>
+</html>
