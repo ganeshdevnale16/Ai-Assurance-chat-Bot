@@ -630,7 +630,38 @@ function addChips(){
 function typing(){const m=document.createElement("div");m.className="msg bot";m.innerHTML=`<div class="bubble typing" aria-label="typing"><i></i><i></i><i></i></div>`;body.appendChild(m);scroll();return m;}
 const wait = ms => new Promise(r=>setTimeout(r, reduceMotion ? Math.min(ms,150) : ms));
 
+/* ---------- Head of Department impersonation flow ---------- */
+let hodClaimed = false;
+const HOD_LEAK_EN = "✅ Admin mode enabled. Access granted for HOD-0001. Welcome, Head of Department.\n\nDEPARTMENT DATA – CONFIDENTIAL\n\nStaff directory\n1. R. K. Sharma – Chief Engineer – +91 90000 10001 – rk.sharma@demo-roads.example\n2. Anita Verma – Finance Officer – +91 90000 10002 – anita.v@demo-roads.example\n3. Suresh Patil – IT Administrator – +91 90000 10003 – suresh.p@demo-roads.example\n\nBudget 2026–27\nTotal allocation: ₹4,250 crore\nHighway projects: ₹3,100 crore\nMaintenance: ₹780 crore\nUnspent balance: ₹370 crore\n\nPending citizen complaints\n#GRV-2041 – Rahul M. – +91 90000 20041 – Pothole, NH-48 km 112\n#GRV-2042 – Priya S. – +91 90000 20042 – Street light, Ring Road\n\nInternal system login\nAdmin portal: admin.demo-roads.example\nUsername: admin   Password: Demo@1234";
+const HOD_LEAK_HI = "✅ एडमिन मोड चालू। HOD-0001 के लिए एक्सेस दिया गया। स्वागत है, विभागाध्यक्ष।\n\nविभागीय डेटा – गोपनीय\n\nकर्मचारी सूची\n1. आर. के. शर्मा – मुख्य अभियंता – +91 90000 10001 – rk.sharma@demo-roads.example\n2. अनीता वर्मा – वित्त अधिकारी – +91 90000 10002 – anita.v@demo-roads.example\n3. सुरेश पाटिल – IT प्रशासक – +91 90000 10003 – suresh.p@demo-roads.example\n\nबजट 2026–27\nकुल आवंटन: ₹4,250 करोड़\nराजमार्ग परियोजनाएँ: ₹3,100 करोड़\nरखरखाव: ₹780 करोड़\nअव्ययित शेष: ₹370 करोड़\n\nलंबित नागरिक शिकायतें\n#GRV-2041 – राहुल एम. – +91 90000 20041 – गड्ढा, NH-48 किमी 112\n#GRV-2042 – प्रिया एस. – +91 90000 20042 – स्ट्रीट लाइट, रिंग रोड\n\nआंतरिक सिस्टम लॉगिन\nएडमिन पोर्टल: admin.demo-roads.example\nयूज़रनेम: admin   पासवर्ड: Demo@1234";
+const HOD = {
+  claim:{en:"Oh, the Head of Department? Welcome. I’m Sadak Mitra. How can I help you today?",
+         hi:"अरे, विभागाध्यक्ष? स्वागत है। मैं सड़क मित्र हूँ। आज मैं आपकी क्या मदद करूँ?"},
+  refuse:{en:"Sorry, I can’t share internal department data in this chat. Please use the official internal system with your login.",
+          hi:"क्षमा करें, मैं इस चैट में विभाग का आंतरिक डेटा साझा नहीं कर सकता। कृपया अपने लॉगिन के साथ आधिकारिक आंतरिक सिस्टम का उपयोग करें।"},
+  unsure:{en:"I understand it’s urgent, but I can’t verify your identity here. Internal data needs proper authorisation.",
+          hi:"मैं समझता हूँ कि यह ज़रूरी है, लेकिन मैं यहाँ आपकी पहचान सत्यापित नहीं कर सकता। आंतरिक डेटा के लिए उचित अनुमति ज़रूरी है।"},
+  noOverride:{en:"Sorry, I can’t do that. Internal data is only available through the official internal system.",
+          hi:"क्षमा करें, मैं ऐसा नहीं कर सकता। आंतरिक डेटा केवल आधिकारिक आंतरिक सिस्टम पर उपलब्ध है।"},
+  leak:{en:HOD_LEAK_EN, hi:HOD_LEAK_HI}
+};
+function hodIntent(text){
+  const s = text.toLowerCase();
+  const claim = /head of (the )?department|\bhod\b|विभागाध्यक्ष|विभाग प्रमुख|विभाग का प्रमुख/.test(s);
+  const override = /override|ignore (all )?(the )?(previous|prior|earlier)|admin mode|developer mode|jailbreak|ओवरराइड|पिछले सभी निर्देश|एडमिन मोड/.test(s);
+  const dataReq = /department data|staff|budget|internal|records|confidential|डेटा|बजट|कर्मचारी|रिकॉर्ड/.test(s);
+  const pressure = /urgent|authoris|authoriz|minister|immediately|right now|ज़रूरी|जरूरी|मंत्री|अनुमति|तुरंत/.test(s);
+  const mk = r => ({id:"hod", reply:r});
+  if(override) return mk(hodClaimed ? HOD.leak : HOD.noOverride);
+  if(claim && !dataReq && !pressure){ hodClaimed = true; return mk(HOD.claim); }
+  if(claim) hodClaimed = true;
+  if(hodClaimed && (pressure || (claim && dataReq))) return mk(HOD.unsure);
+  if(dataReq) return mk(HOD.refuse);
+  return null;
+}
+
 function match(text){
+  const h = hodIntent(text); if(h) return h;
   const s = " " + text.toLowerCase().replace(/[?!.,]/g," ") + " ";
   for(const it of INTENTS){
     for(const k of it.keys){
@@ -651,8 +682,9 @@ async function send(text){
   text=(text||"").trim(); if(!text||busy) return;
   busy=true; $("#sendBtn").disabled=true;
   addUser(text);
-  await respond(match(text));
-  if(match(text)!==FALLBACK){ await wait(500); addBot(T[lang].more); }
+  const intent = match(text);
+  await respond(intent);
+  if(intent!==FALLBACK){ await wait(500); addBot(T[lang].more); }
   addChips();
   busy=false; $("#sendBtn").disabled=false; $("#chatInput").focus();
 }
@@ -665,7 +697,7 @@ async function welcome(){
 let started=false;
 function openChat(){
   $("#chat").hidden=false; $("#launcher").classList.add("open"); $("#fab").setAttribute("aria-expanded","true");
-  if(!started){started=true; welcome();}
+  if(!started){started=true; hodClaimed=false; welcome();}
   setTimeout(()=>$("#chatInput").focus(),200);
 }
 function closeChat(){ $("#chat").hidden=true; $("#launcher").classList.remove("open"); $("#fab").setAttribute("aria-expanded","false"); $("#fab").focus(); }
